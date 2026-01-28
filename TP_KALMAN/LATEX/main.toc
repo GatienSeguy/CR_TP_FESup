@@ -1,0 +1,55 @@
+\babel@toc {french}{}\relax 
+\contentsline {section}{\numberline {I}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {I.1}Contexte et objectifs}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {I.2}Problématique}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {II}Fondements théoriques}{3}{section.2}%
+\contentsline {subsection}{\numberline {II.1}Méthode du modèle (Output Error -- OE)}{3}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {II.1.1}Préparation 1 : Analyse de la non-linéarité}{3}{subsubsection.2.1.1}%
+\contentsline {paragraph}{Pourquoi l'erreur $\varepsilon _n$ n'est pas linéaire en les paramètres ?}{3}{subsubsection.2.1.1}%
+\contentsline {paragraph}{Conséquence sur l'estimation}{4}{equation.6}%
+\contentsline {paragraph}{Cas particulier linéaire}{4}{equation.6}%
+\contentsline {subsection}{\numberline {II.2}Méthode des moindres carrés (Equation Error -- ARX)}{4}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {II.2.1}Préparation 2 : Formulation linéaire}{4}{subsubsection.2.2.1}%
+\contentsline {paragraph}{Expression de l'erreur et linéarité}{4}{subsubsection.2.2.1}%
+\contentsline {paragraph}{Formulation matricielle}{5}{equation.11}%
+\contentsline {paragraph}{Solution explicite}{5}{equation.13}%
+\contentsline {subsubsection}{\numberline {II.2.2}Analyse du biais de l'estimateur MC}{5}{subsubsection.2.2.2}%
+\contentsline {paragraph}{Origine du biais}{5}{subsubsection.2.2.2}%
+\contentsline {paragraph}{Expression analytique du biais (cas du 1er ordre)}{5}{equation.16}%
+\contentsline {subsection}{\numberline {II.3}Moindres Carrés Récursifs (MCR)}{6}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {II.3.1}Algorithme de base}{6}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {II.3.2}MCR avec facteur d'oubli}{6}{subsubsection.2.3.2}%
+\contentsline {section}{\numberline {III}Mise en œuvre expérimentale}{6}{section.3}%
+\contentsline {subsection}{\numberline {III.1}Processus étudié}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {III.2}Signal d'entrée}{7}{subsection.3.2}%
+\contentsline {section}{\numberline {IV}Manipulation 1 : Méthode des Moindres Carrés}{8}{section.4}%
+\contentsline {subsection}{\numberline {IV.1}Objectif}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {IV.2}Résultats pour différents niveaux de bruit}{8}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {IV.2.1}Cas RSB = 100 (bruit faible)}{8}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {IV.2.2}Cas RSB = 10 (bruit modéré)}{9}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {IV.2.3}Cas RSB = 1 (bruit fort)}{10}{subsubsection.4.2.3}%
+\contentsline {subsection}{\numberline {IV.3}Résultats numériques}{11}{subsection.4.3}%
+\contentsline {subsection}{\numberline {IV.4}Étude statistique (Monte Carlo)}{11}{subsection.4.4}%
+\contentsline {paragraph}{Ligne supérieure (paramètre $a$) :}{11}{figure.4}%
+\contentsline {paragraph}{Ligne inférieure (paramètre $b$) :}{11}{figure.4}%
+\contentsline {subsection}{\numberline {IV.5}Convergence de l'estimateur}{13}{subsection.4.5}%
+\contentsline {subsection}{\numberline {IV.6}Bilan de la Manipulation 1}{13}{subsection.4.6}%
+\contentsline {section}{\numberline {V}Manipulation 2 : Moindres Carrés Récursifs avec facteur d'oubli}{14}{section.5}%
+\contentsline {subsection}{\numberline {V.1}Objectif}{14}{subsection.5.1}%
+\contentsline {subsection}{\numberline {V.2}MCR sur système stationnaire}{14}{subsection.5.2}%
+\contentsline {paragraph}{Graphique supérieur gauche (Signaux) :}{14}{figure.6}%
+\contentsline {paragraph}{Graphique supérieur droit (Paramètres estimés) :}{14}{figure.6}%
+\contentsline {paragraph}{Graphique inférieur gauche (Matrice P) :}{15}{figure.6}%
+\contentsline {paragraph}{Graphique inférieur droit (Gain de Kalman K) :}{15}{figure.6}%
+\contentsline {subsection}{\numberline {V.3}Système non stationnaire}{15}{subsection.5.3}%
+\contentsline {subsection}{\numberline {V.4}Influence du facteur d'oubli}{15}{subsection.5.4}%
+\contentsline {subsubsection}{\numberline {V.4.1}Cas $\lambda = 1$ (pas d'oubli)}{15}{subsubsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {V.4.2}Cas $\lambda = 0.98$ (oubli faible)}{16}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {V.4.3}Cas $\lambda = 0.95$ (oubli modéré)}{16}{subsubsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {V.4.4}Cas $\lambda = 0.90$ (oubli fort)}{16}{subsubsection.5.4.4}%
+\contentsline {subsection}{\numberline {V.5}Comparaison synthétique}{17}{subsection.5.5}%
+\contentsline {subsection}{\numberline {V.6}Étude statistique avec $\lambda = 0.95$}{17}{subsection.5.6}%
+\contentsline {subsection}{\numberline {V.7}Bilan de la Manipulation 2}{18}{subsection.5.7}%
+\contentsline {section}{\numberline {VI}Conclusion générale}{19}{section.6}%
+\contentsline {subsection}{\numberline {VI.1}Synthèse des résultats}{19}{subsection.6.1}%
+\contentsline {subsection}{\numberline {VI.2}Limitations observées}{20}{subsection.6.2}%

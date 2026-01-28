@@ -1,0 +1,938 @@
+\documentclass[12pt]{article}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\setlength{\headheight}{36.0976pt}
+\addtolength{\topmargin}{-21.0976pt}
+\usepackage{pifont}
+\usepackage{geometry}
+\usepackage{listings}
+
+\usepackage{ragged2e}  % Justify text
+
+
+%Sousligne
+\usepackage{ulem}
+\usepackage{amsmath}
+\usepackage{matlab-prettifier}
+\usepackage{mathtools, bm}
+\usepackage{amssymb, bm}
+
+% Commandes pour vecteurs et matrices
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\usepackage{xcolor}
+\makeatletter
+\let\ps@plain\ps@fancy
+\makeatother
+\def\ind{\textrm{1\kern-0.25emI}}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    keywordstyle=\color{blue},
+    commentstyle=\color{codegreen},
+    numberstyle=\tiny\color{black},
+    frame=single,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=mystyle}
+\usepackage{amsmath}
+%Sousligne
+\usepackage{ulem}
+%Circuit elec
+\usepackage[european, straightvoltages]{circuitikz}
+
+
+\usepackage{tcolorbox}
+\newtcolorbox{definitionbox}[1][]{%
+  colback=white,
+  colframe=subsectioncolor,
+  boxrule=0.5pt,
+  arc=0pt,
+  outer arc=0pt,
+  left=2mm,
+  right=2mm,
+  top=1mm,
+  bottom=1mm,
+  title=#1
+}
+
+\newtcolorbox{theorembox}[1][]{%
+  colback=white,
+  colframe=sectioncolor,
+  boxrule=0.5pt,
+  arc=0pt,
+  outer arc=0pt,
+  left=2mm,
+  right=2mm,
+  top=1mm,
+  bottom=1mm,
+  title=#1
+}
+
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\SetKwInput{KwIn}{Entrée}
+\SetKwInput{KwOut}{Sortie}
+
+%test
+%%%%%%%%%%%%%%%%%% TABLE DES MATIERES %%%%%%%
+\usepackage{tocloft} % Pour la table des matieres
+%Configuration de la table des matières
+\renewcommand{\cftsecfont}
+{\color{sectioncolor}\bfseries}
+\renewcommand{\cftsecpagefont}{\color{sectioncolor}\bfseries}
+\setlength{\cftsecnumwidth}{2.5em}
+\cftsetindents{section}{0em}{3em}
+
+% Pour les sous-sections
+\renewcommand{\cftsubsecfont}{\color{subsectioncolor}\bfseries}
+\renewcommand{\cftsubsecpagefont}{\color{subsectioncolor}\bfseries}
+\setlength{\cftsubsecnumwidth}{3em}
+
+
+% Pour les sous-sous-sections (même couleur, sans gras)
+\renewcommand{\cftsubsubsecfont}{\color{subsectioncolor}}
+\cftsetindents{subsubsection}{4em}{4.5em}
+\renewcommand{\cftsubsubsecpagefont}{\color{subsectioncolor}}
+\cftsetindents{subsection}{2em}{4em}
+%\setlength{\cftsubsubsecnumwidth}{3.5em}
+
+
+%%%%% PARTIES
+\renewcommand{\cftpartfont}{\color{sectioncolor}\bfseries\Large}
+\renewcommand{\cftpartpagefont}
+{\color{sectioncolor}\bfseries\Large}
+\cftsetindents{part}{0em}{4em}
+
+\renewcommand{\cftbeforepartskip}{1em}
+\renewcommand{\cftpartfont}{%
+  \color{sectioncolor}\bfseries\Large%
+  \rule{\linewidth}{0.4pt}\\%
+}
+
+\renewcommand{\cftpartpresnum}{}
+\setlength{\cftpartnumwidth}{0em}
+\renewcommand{\thepart}{}
+
+
+\usepackage{hyperref}
+\hypersetup{
+    %colorlinks=true,
+    linktoc=all,
+    %linkcolor=sectioncolor,
+    filecolor=sectioncolor,
+    urlcolor=subsectioncolor,
+    pdfborder={0 0 0},
+}
+
+%Pour titre plus coool
+\usepackage{mdframed}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs} % Pour de plus jolies tableaux
+\usepackage{titlesec}
+% Configuration de la géométrie de la page
+\geometry{a4paper, top=2cm, bottom=2cm, left=2cm, right=2cm, headheight=15pt, includeheadfoot}
+% Configuration des en-têtes et des pieds de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\includegraphics[width=2.5cm]{images.png}}
+
+%Configuration des parties
+\titleformat{\part}[display]
+    {\Huge\bfseries\centering\color{sectioncolor}}
+    {}
+    {0pt}
+    {\rule{\textwidth}{1pt}\\\vspace{0.2em}}
+    [\vspace{0.2em}\rule{\textwidth}{1pt}]
+
+\titlespacing*{\part}
+    {0pt}  % Espacement gauche
+    {-60pt} % Espacement avant (valeur négative pour monter)
+    {20pt}  % Espacement après
+
+
+%%%%%%%%%% NUMERA UE %%%%%%%
+\fancyhead[L]{Identification par Moindres Carrés}
+
+%%%%%%%%%%%% Nom matière
+
+\fancyfoot[L]{Gatien Séguy }
+
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{xcolor}
+\definecolor{sectioncolor}{rgb}{0.7, 0.1, 0.1} % Définir la couleur rouge
+
+% Configuration des titres de sections
+
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{sectioncolor}}{\thesection}{1em}{}
+%{\normalfont\large\bfseries\color{sectioncolor}\MakeUppercase}{\thesection}{1em}{}
+
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+
+
+%Configuration des sous titre
+\usepackage{xcolor}
+\definecolor{subsectioncolor}{rgb}{0, 0.51, 0.58}
+% Configuration des titres des sous-sections
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{subsectioncolor}}{\thesubsection}{1em}{}
+
+% Configuration des titres des sous-sous-sections
+\titleformat{\subsubsection}
+{\normalfont\normalsize\bfseries\color{subsectioncolor}}{\thesubsubsection}{1em}{}
+
+\begin{comment} % BLASON 1
+\usepackage{background}
+\newcommand{\blasonpage}{%
+  \backgroundsetup{
+    scale=0.5,
+    angle=0,
+    opacity=0.05,
+    contents={\includegraphics[width=1.2\paperwidth]{CH_ZH_logo_Kanton_court.png}}
+  }
+  \BgThispage
+}
+\end{comment}
+
+\begin{document}
+\fontsize{13pt}{15pt}\selectfont
+
+\begin{titlepage}
+\thispagestyle{empty}
+%\blasonpage % BLASON 2
+\begin{center}
+    % ESPACE HAUT
+    %\vspace*{0.8cm}
+
+    % LES 4 LOGOS EN UNE LIGNE
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Logo_ENS_leger(1).jpg}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \vspace{-0.4cm}
+        \includegraphics[width=\linewidth]{logo_univPS.png}
+    \end{minipage}
+
+    \vspace{1.4cm}
+
+    {\Large \textbf{ÉCOLE NORMALE SUPÉRIEURE PARIS-SACLAY}}\\
+    {\small (Université Paris-Saclay)}\\[0.2cm]
+
+
+        \vspace{0.3cm}
+    \noindent\makebox[\textwidth]{\color{black}\rule{1\textwidth}{2pt}}\\[-1pt]
+    \noindent\makebox[\textwidth]{\color{black}\rule{0.8\textwidth}{1pt}}
+    \vspace{0.3cm}
+
+
+    {\Huge  \color{sectioncolor} \textbf{Compte rendu de TP}}\\[0.2cm]
+
+{\large \textbf{Matière :} \itshape Automatique non-linéaire et Filtrage de Kalman }\\[0.2cm]
+
+
+    %%%% TRAIT
+    \vspace{0.3cm}
+    \noindent\makebox[\textwidth]{\color{black}\rule{0.8\textwidth}{1pt}}\\[-1pt]
+    \noindent\makebox[\textwidth]{\color{black}\rule{1\textwidth}{2pt}}
+    \vspace{0.3cm}
+
+    %Fin Trait
+    \vspace{0.1cm}
+    {\LARGE \textbf{TP1 - Identification par Moindres Carrés}}\\[1cm]
+
+    \begin{tabular}{rl}
+    \textbf{Nom de l'étudiant :} & Gatien Séguy \\
+    \textbf{Établissement :} & ENS Paris-Saclay (Département EEA) \\
+    \textbf{Encadrante :} & Cécile Durieu\\
+    \textbf{Date :} & \today \\
+    \end{tabular}
+
+    \vfill
+
+\end{center}
+\end{titlepage}
+% \backgroundsetup{contents={}} % BLASON 3
+% Sommaire
+
+\newpage
+\vspace*{0.5cm}
+\tableofcontents
+\newpage
+
+
+% =============================================================================
+% INTRODUCTION GÉNÉRALE
+% =============================================================================
+\section{Introduction}
+
+\subsection{Contexte et objectifs}
+
+Ce TP porte sur l'\textbf{identification paramétrique} d'un système dynamique linéaire à temps discret. L'objectif est d'estimer les paramètres d'une fonction de transfert à partir de mesures entrée-sortie, en utilisant principalement la \textbf{méthode des moindres carrés (MC)}.
+
+Le modèle recherché est une fonction de transfert à temps discret de la forme :
+\begin{equation}
+    H(z) = \frac{B(z)}{A(z)} = \frac{\sum_{i=n_k}^{n_b} b_i z^{-i}}{1 + \sum_{i=1}^{n_a} a_i z^{-i}}
+\end{equation}
+
+Le vecteur de paramètres à estimer est $\vect{\theta} = (a_1 \ldots a_{n_a} \, b_{n_k} \ldots b_{n_b})^\mathsf{T}$ de dimension $n_a + n_b - n_k + 1$.
+
+\subsection{Problématique}
+
+L'identification par moindres carrés pose plusieurs questions fondamentales :
+\begin{itemize}
+    \item Comment formuler le problème pour obtenir une solution analytique explicite ?
+    \item Quel est l'effet du bruit de mesure sur l'estimation ?
+    \item Comment adapter la méthode pour des systèmes dont les paramètres varient dans le temps ?
+\end{itemize}
+
+% =============================================================================
+% PARTIE THÉORIQUE
+% =============================================================================
+\section{Fondements théoriques}
+
+\subsection{Méthode du modèle (Output Error -- OE)}
+
+\subsubsection{Préparation 1 : Analyse de la non-linéarité}
+
+\paragraph{Pourquoi l'erreur $\varepsilon_n$ n'est pas linéaire en les paramètres ?}
+
+Dans la méthode du modèle (appelée aussi Output Error), l'erreur est définie par :
+\begin{equation}
+    \varepsilon_n = s_n - s_n^{\text{mod}}
+\end{equation}
+
+La sortie du modèle $s_n^{\text{mod}}$ est obtenue par filtrage de l'entrée $u_n$ par la fonction de transfert $H(z) = \frac{B(z)}{A(z)}$. Dans le domaine temporel, cela correspond à l'équation de récurrence :
+\begin{equation}
+    s_n^{\text{mod}} = -\sum_{i=1}^{n_a} a_i s_{n-i}^{\text{mod}} + \sum_{i=n_k}^{n_b} b_i u_{n-i}
+\end{equation}
+
+\textbf{Analyse de la non-linéarité :} La sortie $s_n^{\text{mod}}$ dépend des valeurs passées $s_{n-i}^{\text{mod}}$, qui elles-mêmes dépendent des paramètres $a_i$ de manière récursive. Par exemple, pour un système du premier ordre :
+\begin{align}
+    s_1^{\text{mod}} &= b_1 u_0 \\
+    s_2^{\text{mod}} &= -a_1 s_1^{\text{mod}} + b_1 u_1 = -a_1 b_1 u_0 + b_1 u_1 \\
+    s_3^{\text{mod}} &= -a_1 s_2^{\text{mod}} + b_1 u_2 = a_1^2 b_1 u_0 - a_1 b_1 u_1 + b_1 u_2
+\end{align}
+
+On voit apparaître des termes en $a_1^2$, $a_1 b_1$, etc. La sortie est donc une \textbf{fonction polynomiale non linéaire} des paramètres.
+
+\paragraph{Conséquence sur l'estimation}
+
+Le critère quadratique $J_k(\vect{\theta}) = \sum_{n=1}^{k} \varepsilon_n^2$ est une fonction non convexe des paramètres. La condition d'optimalité $\frac{\partial J_k}{\partial \vect{\theta}} = \vect{0}$ conduit à un système d'équations non linéaires sans solution analytique. Il faut donc recourir à des \textbf{algorithmes itératifs} (gradient, Gauss-Newton, Levenberg-Marquardt).
+
+\paragraph{Cas particulier linéaire}
+
+L'erreur est linéaire en les paramètres uniquement pour un \textbf{filtre FIR} (Finite Impulse Response), c'est-à-dire $A(z) = 1$ (pas de pôles). Dans ce cas :
+\begin{equation}
+    s_n^{\text{mod}} = \sum_{i=n_k}^{n_b} b_i u_{n-i}
+\end{equation}
+est directement linéaire en $\vect{\theta} = (b_{n_k}, \ldots, b_{n_b})^\mathsf{T}$.
+
+\subsection{Méthode des moindres carrés (Equation Error -- ARX)}
+
+\subsubsection{Préparation 2 : Formulation linéaire}
+
+\paragraph{Expression de l'erreur et linéarité}
+
+La méthode des moindres carrés utilise un modèle \textbf{série-parallèle} où l'erreur est définie par :
+\begin{equation}
+    e_n = s_n - \hat{s}_n^{\text{pred}}
+\end{equation}
+
+La différence fondamentale avec la méthode du modèle est que la sortie prédite utilise les \textbf{vraies sorties passées mesurées} (et non les sorties du modèle) :
+\begin{equation}
+    \hat{s}_n^{\text{pred}} = -\sum_{i=1}^{n_a} a_i s_{n-i} + \sum_{i=n_k}^{n_b} b_i u_{n-i}
+\end{equation}
+
+L'erreur devient :
+\begin{equation}
+    e_n = s_n + \sum_{i=1}^{n_a} a_i s_{n-i} - \sum_{i=n_k}^{n_b} b_i u_{n-i} = s_n - \vect{\varphi}_n^\mathsf{T} \vect{\theta}
+\end{equation}
+
+avec le \textbf{vecteur de régression} :
+\begin{equation}
+    \vect{\varphi}_n = \begin{pmatrix} -s_{n-1} \\ \vdots \\ -s_{n-n_a} \\ u_{n-n_k} \\ \vdots \\ u_{n-n_b} \end{pmatrix}
+\end{equation}
+
+L'erreur $e_n$ est bien \textbf{linéaire en les paramètres} $\vect{\theta}$.
+
+\paragraph{Formulation matricielle}
+
+En posant :
+\begin{equation}
+    \mat{x}_k = \begin{pmatrix} s_1 \\ s_2 \\ \vdots \\ s_k \end{pmatrix}, \quad
+    \mat{C}_k = \begin{pmatrix} \vect{\varphi}_1^\mathsf{T} \\ \vect{\varphi}_2^\mathsf{T} \\ \vdots \\ \vect{\varphi}_k^\mathsf{T} \end{pmatrix}
+\end{equation}
+
+Le critère quadratique s'écrit :
+\begin{equation}
+    \boxed{J_k(\vect{\theta}) = (\mat{x}_k - \mat{C}_k \vect{\theta})^\mathsf{T} (\mat{x}_k - \mat{C}_k \vect{\theta}) = \|\mat{x}_k - \mat{C}_k \vect{\theta}\|^2}
+\end{equation}
+
+\paragraph{Solution explicite}
+
+La minimisation donne les \textbf{équations normales} :
+\begin{equation}
+    \mat{C}_k^\mathsf{T} \mat{C}_k \vect{\theta} = \mat{C}_k^\mathsf{T} \mat{x}_k
+\end{equation}
+
+D'où l'estimateur des moindres carrés :
+\begin{equation}
+    \boxed{\hat{\vect{\theta}}_k = (\mat{C}_k^\mathsf{T} \mat{C}_k)^{-1} \mat{C}_k^\mathsf{T} \mat{x}_k}
+\end{equation}
+
+\subsubsection{Analyse du biais de l'estimateur MC}
+
+\paragraph{Origine du biais}
+
+Considérons le cas où la sortie mesurée est bruitée : $s_n = s_n^0 + w_n$, où $s_n^0$ est la sortie non bruitée et $w_n$ un bruit blanc centré de variance $\sigma_w^2$.
+
+Le vecteur de régression contient alors les sorties bruitées :
+\begin{equation}
+    \vect{\varphi}_n = \begin{pmatrix} -(s_{n-1}^0 + w_{n-1}) \\ u_{n-1} \end{pmatrix}
+\end{equation}
+
+Le bruit $w_n$ apparaît \textbf{simultanément} dans :
+\begin{itemize}
+    \item Le vecteur $\mat{x}_k$ (observation courante)
+    \item La matrice $\mat{C}_k$ (via les sorties passées dans le régresseur)
+\end{itemize}
+
+Cette corrélation entre le régresseur et le terme d'erreur viole l'hypothèse fondamentale des moindres carrés et introduit un \textbf{biais systématique}.
+
+\paragraph{Expression analytique du biais (cas du 1er ordre)}
+
+Pour un système du premier ordre $H(z) = \frac{bz^{-1}}{1+az^{-1}}$ avec bruit de sortie additif, on peut montrer que :
+\begin{equation}
+    E[\hat{a}] = a \cdot \frac{\text{Var}(s^0)}{\text{Var}(s^0) + \sigma_w^2} = a \cdot \frac{\text{RSB}}{\text{RSB} + 1}
+\end{equation}
+
+où RSB $= \frac{P_s}{P_w} = \frac{\text{Var}(s^0)}{\sigma_w^2}$ est le rapport signal sur bruit.
+
+\textbf{Conséquence :} $|E[\hat{a}]| < |a|$, l'estimateur MC \textbf{sous-estime systématiquement} la valeur absolue du paramètre $a$. Ce phénomène est connu sous le nom de \textbf{biais de régression atténuée} (attenuation bias).
+
+\subsection{Moindres Carrés Récursifs (MCR)}
+
+\subsubsection{Algorithme de base}
+
+L'algorithme MCR permet de mettre à jour l'estimation à chaque nouvelle mesure sans recalculer l'inverse de $\mat{C}_k^\mathsf{T}\mat{C}_k$ :
+
+\begin{algorithm}[H]
+\caption{Moindres Carrés Récursifs}
+\KwIn{Mesures $(u_n, s_n)$, estimation initiale $\hat{\vect{\theta}}_0$, matrice $\mat{P}_0$}
+\For{$n = 1, 2, \ldots$}{
+    $\vect{c}_n \leftarrow \begin{pmatrix} -s_{n-1} \\ u_{n-1} \end{pmatrix}$ \tcp*{Vecteur de régression}
+    $\mat{K}_n \leftarrow \frac{\mat{P}_{n-1} \vect{c}_n}{\vect{c}_n^\mathsf{T} \mat{P}_{n-1} \vect{c}_n + 1}$ \tcp*{Gain}
+    $\mat{P}_n \leftarrow \mat{P}_{n-1} - \mat{K}_n \vect{c}_n^\mathsf{T} \mat{P}_{n-1}$ \tcp*{Mise à jour de P}
+    $\hat{\vect{\theta}}_n \leftarrow \hat{\vect{\theta}}_{n-1} + \mat{K}_n (s_n - \vect{c}_n^\mathsf{T} \hat{\vect{\theta}}_{n-1})$ \tcp*{Mise à jour de $\theta$}
+}
+\end{algorithm}
+
+\subsubsection{MCR avec facteur d'oubli}
+
+Pour les systèmes \textbf{non stationnaires} dont les paramètres varient dans le temps, on introduit un \textbf{facteur d'oubli} $\lambda \in ]0, 1]$ :
+
+\begin{equation}
+    J_k(\vect{\theta}) = \sum_{n=1}^{k} \lambda^{k-n} e_n^2
+\end{equation}
+
+Les mesures anciennes sont pondérées exponentiellement moins que les mesures récentes. L'algorithme devient :
+\begin{align}
+    \mat{K}_n &= \frac{\mat{P}_{n-1} \vect{c}_n}{\vect{c}_n^\mathsf{T} \mat{P}_{n-1} \vect{c}_n + \lambda} \\
+    \mat{P}_n &= \frac{1}{\lambda}\left(\mat{P}_{n-1} - \mat{K}_n \vect{c}_n^\mathsf{T} \mat{P}_{n-1}\right)
+\end{align}
+
+Avec $\lambda = 1$, on retrouve les MC classiques (pas d'oubli). Pour $\lambda < 1$, les anciennes mesures sont progressivement ``oubliées'', ce qui permet le suivi de paramètres variables. La ``mémoire effective'' de l'estimateur est d'environ $\frac{1}{1-\lambda}$ échantillons.
+
+% =============================================================================
+% PARTIE EXPÉRIMENTALE
+% =============================================================================
+\section{Mise en œuvre expérimentale}
+
+\subsection{Processus étudié}
+
+Le processus est un filtre linéaire analogique du 1\textsuperscript{er} ordre :
+\begin{equation}
+    H_a(p) = \frac{K_a}{1 + \tau p}
+\end{equation}
+
+avec $K_a = 1$ et $\tau = 0.1$ s.
+
+Sa fonction de transfert échantillonnée avec $T_e = 0.1$ s est :
+\begin{equation}
+    H(z) = \frac{bz^{-1}}{1 + az^{-1}}
+\end{equation}
+
+avec :
+\begin{equation}
+    \begin{cases}
+        a = -e^{-T_e/\tau} = -e^{-1} \approx -0.3679 \\
+        b = K_a(1+a) = 1 - e^{-1} \approx 0.6321
+    \end{cases}
+\end{equation}
+
+Le pôle du système est $z = -a = e^{-1} \approx 0.368$, donc le système est \textbf{stable} (pôle à l'intérieur du cercle unité) avec une dynamique relativement rapide (constante de temps $\approx$ 1 échantillon).
+
+\subsection{Signal d'entrée}
+
+Le signal d'entrée utilisé est un \textbf{chirp} (sinusoïde à fréquence variable) :
+\begin{equation}
+    u(t) = \sin\left(2\pi \left(f_{\min} + \frac{f_{\max} - f_{\min}}{2T_{\max}} t\right) t\right)
+\end{equation}
+
+avec $f_{\min} = 0$ Hz et $f_{\max} = 0.25 F_e = 2.5$ Hz.
+
+Le chirp est un signal \textbf{persistamment excitant} qui balaie toute la bande passante du système. Contrairement à une sinusoïde pure, il excite le système sur toute sa plage de fonctionnement fréquentiel, ce qui améliore la qualité de l'identification.
+
+% =============================================================================
+% MANIPULATION 1
+% =============================================================================
+\newpage
+\section{Manipulation 1 : Méthode des Moindres Carrés}
+
+\subsection{Objectif}
+
+L'objectif de cette manipulation est d'étudier expérimentalement :
+\begin{enumerate}
+    \item L'effet du rapport signal sur bruit (RSB) sur la qualité de l'estimation
+    \item Le biais de l'estimateur MC en présence de bruit de sortie
+    \item Les propriétés statistiques de l'estimateur
+\end{enumerate}
+
+\subsection{Résultats pour différents niveaux de bruit}
+
+\subsubsection{Cas RSB = 100 (bruit faible)}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip1_signaux_RSB100.png}
+    \caption{Signaux et estimation MC pour RSB = 100}
+    \label{fig:manip1_RSB100}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip1_RSB100} :}
+
+\begin{itemize}
+    \item \textbf{Graphique supérieur :} L'entrée chirp (rouge) montre la fréquence croissante caractéristique. La sortie non bruitée (bleu pointillé) et la sortie bruitée (bleu continu) sont \textbf{quasi-indiscernables}, ce qui confirme le faible niveau de bruit ($\sigma_w \approx 0.01 \times$ amplitude du signal).
+
+    \item \textbf{Graphique inférieur :} La sortie estimée par MC (vert) se superpose \textbf{parfaitement} à la sortie exacte. Les points bleus (mesures bruitées) montrent une dispersion négligeable autour de la courbe théorique.
+
+    \item \textbf{Observation du comportement fréquentiel :} On note l'atténuation et le déphasage croissants de la sortie lorsque la fréquence d'entrée augmente, conformément au comportement passe-bas du système du 1\textsuperscript{er} ordre.
+\end{itemize}
+
+\subsubsection{Cas RSB = 10 (bruit modéré)}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip1_signaux_RSB10.png}
+    \caption{Signaux et estimation MC pour RSB = 10}
+    \label{fig:manip1_RSB10}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip1_RSB10} :}
+
+\begin{itemize}
+    \item \textbf{Graphique supérieur :} Le bruit devient \textbf{clairement visible} sur la sortie bruitée, avec une dispersion d'environ $\pm 0.3$ autour de la sortie théorique. On observe des ``outliers'' particulièrement au début de la simulation (instants $t < 1$ s).
+
+    \item \textbf{Graphique inférieur :} Malgré le bruit significatif, l'estimation MC (vert) reste \textbf{très proche} de la sortie exacte. Cela démontre la capacité de la méthode à ``filtrer'' le bruit grâce à la redondance des mesures ($N = 100$ échantillons).
+
+    \item \textbf{Point critique :} On commence à percevoir une légère \textbf{différence d'amplitude} entre la sortie estimée et la sortie exacte, manifestation du biais de l'estimateur.
+\end{itemize}
+
+\newpage
+\subsubsection{Cas RSB = 1 (bruit fort)}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip1_signaux_RSB1.png}
+    \caption{Signaux et estimation MC pour RSB = 1}
+    \label{fig:manip1_RSB1}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip1_RSB1} :}
+
+\begin{itemize}
+    \item \textbf{Changement d'échelle :} L'axe des ordonnées s'étend maintenant de $-3$ à $+3$ (contre $\pm 1.5$ précédemment), reflétant l'amplitude du bruit ($\sigma_w \approx$ amplitude du signal utile).
+
+    \item \textbf{Graphique supérieur :} Le signal utile est \textbf{noyé dans le bruit}. La sortie bruitée (bleu) oscille de manière erratique, masquant presque complètement la forme sinusoïdale attendue.
+
+    \item \textbf{Graphique inférieur -- Observation cruciale :} La sortie estimée par MC (vert) présente une \textbf{amplitude systématiquement réduite} par rapport à la sortie exacte (bleu pointillé). Ce phénomène est particulièrement visible :
+    \begin{itemize}
+        \item Aux basses fréquences ($t < 3$ s) : l'amplitude estimée atteint $\approx 0.7$ contre $\approx 1.0$ pour l'exacte
+        \item Aux hautes fréquences ($t > 7$ s) : l'amplitude estimée est $\approx 0.4$ contre $\approx 0.5$ pour l'exacte
+    \end{itemize}
+
+    \item \textbf{Interprétation physique :} Cette sous-estimation de l'amplitude provient directement du biais sur $\hat{a}$. Puisque $|\hat{a}| < |a|$, le pôle estimé est plus éloigné du cercle unité, ce qui correspond à un système ``plus amorti'' avec un gain plus faible.
+\end{itemize}
+
+\subsection{Résultats numériques}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{RSB} & \textbf{$\hat{a}$} & \textbf{$\hat{b}$} & \textbf{$|\Delta a|$} & \textbf{$|\Delta b|$} & \textbf{Erreur rel. $a$} & \textbf{Erreur rel. $b$} \\
+        \hline
+        100 & $-0.3535$ & 0.6375 & 0.0144 & 0.0054 & 3.9\% & 0.9\% \\
+        10 & $-0.2826$ & 0.6606 & 0.0853 & 0.0285 & 23.2\% & 4.5\% \\
+        1 & $-0.1161$ & 0.7030 & 0.2518 & 0.0709 & 68.4\% & 11.2\% \\
+        \hline
+    \end{tabular}
+    \caption{Estimation des paramètres pour différents RSB (valeurs exactes : $a = -0.3679$, $b = 0.6321$)}
+    \label{tab:manip1_rsb}
+\end{table}
+
+\textbf{Observations quantitatives :}
+
+\begin{enumerate}
+    \item \textbf{Biais sur $a$ :} $\hat{a}$ est \textbf{toujours moins négatif} que $a$. Pour RSB=1, $\hat{a} \approx -0.12$ au lieu de $-0.37$, soit une erreur de 68\%.
+
+    \item \textbf{Biais sur $b$ :} $\hat{b}$ est \textbf{toujours surestimé}. Cette surestimation compense partiellement l'erreur sur $a$ pour maintenir un gain statique proche de $K = \frac{b}{1+a}$.
+
+    \item \textbf{Rapport des erreurs :} Le paramètre $a$ est \textbf{beaucoup plus affecté} que $b$. Cela s'explique par le fait que $a$ multiplie les sorties passées bruitées dans le régresseur, alors que $b$ multiplie les entrées (non bruitées).
+\end{enumerate}
+
+\subsection{Étude statistique (Monte Carlo)}
+
+Pour caractériser rigoureusement les propriétés statistiques de l'estimateur, nous avons effectué $I = 500$ simulations indépendantes pour chaque niveau de RSB.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.99\textwidth]{figures/manip1_etude_stat_RSB.png}
+    \caption{Distribution des estimations MC pour différents RSB (500 simulations)}
+    \label{fig:manip1_stat}
+\end{figure}
+
+\textbf{Analyse détaillée de la Figure \ref{fig:manip1_stat} :}
+
+\paragraph{Ligne supérieure (paramètre $a$) :}
+
+\begin{itemize}
+    \item \textbf{RSB = 100 :} Distribution très concentrée (écart-type $\sigma_a \approx 0.01$) centrée sur la valeur vraie. La ligne rouge (valeur exacte) et la ligne bleue (moyenne empirique) sont confondues.
+
+    \item \textbf{RSB = 10 :} Distribution plus étalée. On observe un \textbf{décalage visible} entre la moyenne (bleu, $\approx -0.32$) et la valeur vraie (rouge, $-0.368$). C'est la manifestation graphique du biais.
+
+    \item \textbf{RSB = 5 :} Le décalage s'accentue. La distribution s'étale de $-0.45$ à $-0.15$ environ.
+
+    \item \textbf{RSB = 2 :} Forte dispersion et biais important. La moyenne ($\approx -0.22$) est très éloignée de la valeur vraie. Certaines estimations donnent même des valeurs proches de $-0.1$.
+\end{itemize}
+
+\paragraph{Ligne inférieure (paramètre $b$) :}
+
+\begin{itemize}
+    \item Le paramètre $b$ est \textbf{moins affecté} par le bruit car il n'est pas multiplié par les sorties bruitées dans le régresseur.
+
+    \item On observe néanmoins une \textbf{surestimation systématique} : la moyenne (vert) est toujours à droite de la valeur vraie (rouge).
+
+    \item La dispersion reste raisonnable même pour RSB = 2 (distribution entre 0.5 et 0.8).
+\end{itemize}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{RSB} & \textbf{Biais $a$} & \textbf{$\sigma_a$} & \textbf{Biais $b$} & \textbf{$\sigma_b$} \\
+        \hline
+        100 & 0.0046 & 0.0094 & 0.0020 & 0.0080 \\
+        10 & 0.0450 & 0.0308 & 0.0210 & 0.0269 \\
+        5 & 0.0821 & 0.0428 & 0.0372 & 0.0373 \\
+        2 & 0.1503 & 0.0672 & 0.0625 & 0.0598 \\
+        \hline
+    \end{tabular}
+    \caption{Statistiques de l'estimateur MC (500 simulations)}
+    \label{tab:manip1_stat}
+\end{table}
+
+\textbf{Vérification de la formule théorique du biais :}
+
+Pour RSB = 10, la formule prédit :
+\begin{equation}
+    \text{Biais}(a) = |a| - |E[\hat{a}]| \approx |a| \cdot \frac{1}{\text{RSB}+1} = 0.368 \times \frac{1}{11} \approx 0.033
+\end{equation}
+
+La valeur expérimentale est 0.045, en accord raisonnable avec la théorie (l'écart provient des effets de taille finie et de la non-stationnarité du chirp).
+
+\subsection{Convergence de l'estimateur}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip1_evolution_estimations.png}
+    \caption{Évolution des estimations sur 500 simulations (RSB = 10)}
+    \label{fig:manip1_evolution}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip1_evolution} :}
+
+\begin{itemize}
+    \item \textbf{Points verts :} Chaque point représente une estimation issue d'une réalisation indépendante du bruit. La dispersion illustre la variance de l'estimateur.
+
+    \item \textbf{Ligne bleue (moyenne cumulée) :} Converge rapidement vers une valeur \textbf{stable mais biaisée}. Après environ 100 simulations, la moyenne cumulée ne varie quasiment plus.
+
+    \item \textbf{Ligne rouge (valeur exacte) :} Reste constante et \textbf{distincte} de la moyenne cumulée, confirmant le caractère \textbf{systématique et non aléatoire} du biais.
+
+    \item \textbf{Observation pour $a$ :} La moyenne converge vers $\approx -0.32$ au lieu de $-0.368$. L'écart ($\approx 0.05$) correspond au biais théorique.
+
+    \item \textbf{Observation pour $b$ :} La moyenne converge vers $\approx 0.65$ au lieu de $0.632$. La surestimation est plus faible en proportion.
+\end{itemize}
+
+\subsection{Bilan de la Manipulation 1}
+
+Les résultats expérimentaux confirment que l'estimateur des moindres carrés est \textbf{biaisé} en présence de bruit de sortie. Le biais sur $a$ suit approximativement la loi $\frac{|a|}{\text{RSB}+1}$, ce qui est cohérent avec la théorie. On note également que le paramètre $a$ (partie autorégressive) est plus sensible au bruit que $b$ (partie moyenne mobile), car $a$ multiplie les sorties bruitées dans le régresseur. Enfin, le biais diminue lorsque le RSB augmente, ce qui confirme la consistance de l'estimateur.
+
+% =============================================================================
+% MANIPULATION 2
+% =============================================================================
+\section{Manipulation 2 : Moindres Carrés Récursifs avec facteur d'oubli}
+
+\subsection{Objectif}
+
+Cette manipulation étudie la capacité de l'algorithme MCR à :
+\begin{enumerate}
+    \item Estimer les paramètres en ligne (temps réel)
+    \item Suivre des paramètres variables grâce au facteur d'oubli $\lambda$
+\end{enumerate}
+
+\subsection{MCR sur système stationnaire}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip2_MCR_details.png}
+    \caption{MCR : évolution des paramètres, de la matrice P et du gain K}
+    \label{fig:manip2_details}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip2_details} :}
+
+\paragraph{Graphique supérieur gauche (Signaux) :}
+Identique aux manipulations précédentes, montre l'entrée chirp et la sortie bruitée.
+
+\paragraph{Graphique supérieur droit (Paramètres estimés) :}
+\begin{itemize}
+    \item Les estimations partent de valeurs initiales arbitraires et convergent vers des valeurs \textbf{biaisées} (comme attendu avec la méthode MC).
+    \item La convergence est rapide : environ 2-3 secondes pour atteindre le régime permanent.
+    \item On observe les mêmes biais que dans la Manipulation 1 : $\hat{a} > a$ (en valeur algébrique) et $\hat{b} > b$.
+\end{itemize}
+
+\paragraph{Graphique inférieur gauche (Matrice P) :}
+\begin{itemize}
+    \item $\sqrt{P_{11}}$ et $\sqrt{P_{22}}$ représentent les \textbf{écarts-types estimés} des paramètres $a$ et $b$.
+    \item Décroissance rapide initialement (beaucoup d'information nouvelle).
+    \item Convergence vers des valeurs faibles mais non nulles, reflétant l'incertitude résiduelle due au bruit.
+    \item \textbf{Observation importante :} La décroissance n'est pas monotone mais présente des ``paliers'' correspondant aux zones de faible excitation du système.
+\end{itemize}
+
+\paragraph{Graphique inférieur droit (Gain de Kalman K) :}
+\begin{itemize}
+    \item Le gain $K$ oscille autour de zéro après la phase transitoire.
+    \item L'amplitude des oscillations décroît, indiquant que l'algorithme ``fait de moins en moins confiance'' aux nouvelles mesures.
+    \item Les pics correspondent aux instants où l'erreur de prédiction est importante.
+\end{itemize}
+
+\subsection{Système non stationnaire}
+
+Pour tester le suivi de paramètres variables, on considère un système dont les paramètres changent \textbf{brusquement} à $t = 25$ s :
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        & $K_a$ & $\tau$ (s) & $a$ & $b$ \\
+        \hline
+        $t < 25$ s & 1.0 & 0.10 & $-0.3679$ & 0.6321 \\
+        $t \geq 25$ s & 0.8 & 0.08 & $-0.2865$ & 0.5707 \\
+        \hline
+    \end{tabular}
+    \caption{Paramètres du système non stationnaire}
+\end{table}
+
+\subsection{Influence du facteur d'oubli}
+
+\subsubsection{Cas $\lambda = 1$ (pas d'oubli)}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip2_MCR_lambda1.png}
+    \caption{MCR avec $\lambda = 1$ : pas de suivi après le saut}
+    \label{fig:manip2_lambda1}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip2_lambda1} :}
+
+\begin{itemize}
+    \item \textbf{Avant le saut ($t < 25$ s) :} L'estimateur converge vers une valeur biaisée, comme attendu.
+
+    \item \textbf{Après le saut ($t \geq 25$ s) :} Les paramètres vrais (rouge) changent brusquement, mais les estimations (vert) restent \textbf{quasiment constantes}.
+
+    \item \textbf{Explication :} Avec $\lambda = 1$, la matrice $\mat{P}$ a convergé vers des valeurs très faibles. Le gain $\mat{K}$ est donc négligeable et les nouvelles mesures n'ont presque plus d'influence sur l'estimation.
+
+    \item L'algorithme MCR sans oubli est donc \textbf{inadapté} aux systèmes non stationnaires.
+\end{itemize}
+
+\subsubsection{Cas $\lambda = 0.98$ (oubli faible)}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip2_MCR_lambda0_98.png}
+    \caption{MCR avec $\lambda = 0.98$ : suivi lent}
+    \label{fig:manip2_lambda098}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip2_lambda098} :}
+
+\begin{itemize}
+    \item La mémoire effective est $\frac{1}{1-0.98} = 50$ échantillons, soit 5 secondes.
+
+    \item Après le saut, on observe un \textbf{début de convergence} vers les nouvelles valeurs, mais le suivi est \textbf{lent} et incomplet sur la durée de la simulation.
+
+    \item L'estimation reste plus bruitée qu'avec $\lambda = 1$, ce qui est le prix à payer pour la réactivité.
+\end{itemize}
+
+\subsubsection{Cas $\lambda = 0.95$ (oubli modéré)}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip2_MCR_lambda0_95.png}
+    \caption{MCR avec $\lambda = 0.95$ : bon compromis}
+    \label{fig:manip2_lambda095}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip2_lambda095} :}
+
+\begin{itemize}
+    \item La mémoire effective est $\frac{1}{1-0.95} = 20$ échantillons, soit 2 secondes.
+
+    \item \textbf{Détection du saut :} Clairement visible sur les courbes d'estimation. L'algorithme réagit rapidement au changement de paramètres.
+
+    \item \textbf{Convergence :} Après environ 5-10 secondes post-saut, les estimations se stabilisent autour des nouvelles valeurs (avec le biais habituel).
+
+    \item \textbf{Compromis bruit/réactivité :} Les oscillations sont présentes mais restent raisonnables.
+\end{itemize}
+
+\subsubsection{Cas $\lambda = 0.90$ (oubli fort)}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip2_MCR_lambda0_9.png}
+    \caption{MCR avec $\lambda = 0.90$ : suivi rapide mais bruité}
+    \label{fig:manip2_lambda09}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip2_lambda09} :}
+
+\begin{itemize}
+    \item La mémoire effective est $\frac{1}{1-0.90} = 10$ échantillons, soit 1 seconde.
+
+    \item \textbf{Réactivité excellente :} Le saut est détecté quasi-instantanément.
+
+    \item \textbf{Inconvénient majeur :} Les estimations sont \textbf{très bruitées} avec des oscillations d'amplitude importante (pics jusqu'à 1.4 pour $b$ dont la vraie valeur est 0.63).
+
+    \item On note qu'un $\lambda$ trop petit peut conduire à une divergence numérique de $\mat{P}$ dans certaines conditions (mauvais conditionnement, faible excitation).
+\end{itemize}
+
+\subsection{Comparaison synthétique}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip2_comparaison_lambda.png}
+    \caption{Comparaison des différentes valeurs de $\lambda$}
+    \label{fig:manip2_comparaison}
+\end{figure}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $\lambda$ & Mémoire effective & Réactivité & Niveau de bruit \\
+        \hline
+        1.00 & $\infty$ & Nulle & Minimal \\
+        0.98 & 50 échantillons & Faible & Faible \\
+        0.95 & 20 échantillons & Bonne & Modéré \\
+        0.90 & 10 échantillons & Excellente & Élevé \\
+        \hline
+    \end{tabular}
+    \caption{Synthèse de l'influence de $\lambda$}
+\end{table}
+
+\subsection{Étude statistique avec $\lambda = 0.95$}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/manip2_etude_statistique.png}
+    \caption{MCR avec $\lambda = 0.95$ : 50 réalisations superposées}
+    \label{fig:manip2_stat}
+\end{figure}
+
+\textbf{Analyse de la Figure \ref{fig:manip2_stat} :}
+
+\begin{itemize}
+    \item Les 50 courbes vertes représentent les trajectoires d'estimation pour 50 réalisations indépendantes du bruit.
+
+    \item \textbf{Phase transitoire ($t < 10$ s) :} Grande dispersion des estimations, certaines trajectoires s'écartent fortement de la valeur vraie (jusqu'à $a \approx 1$ ou $b \approx 2$).
+
+    \item \textbf{Régime permanent avant saut ($10 < t < 25$ s) :} Les trajectoires se regroupent autour de la valeur vraie (avec biais), formant un ``faisceau'' relativement étroit.
+
+    \item \textbf{Après le saut ($t > 25$ s) :}
+    \begin{itemize}
+        \item Nouvelle phase de transitoire avec dispersion accrue
+        \item Convergence progressive vers les nouvelles valeurs des paramètres
+        \item Le ``faisceau'' se resserre à nouveau après environ 10 secondes
+    \end{itemize}
+
+    \item \textbf{Observation importante :} La valeur vraie (rouge) reste bien \textbf{à l'intérieur du faisceau} de trajectoires, ce qui valide la capacité de l'algorithme à suivre les paramètres.
+\end{itemize}
+
+\subsection{Bilan de la Manipulation 2}
+
+L'algorithme MCR permet l'estimation \textbf{en ligne} des paramètres. Sans facteur d'oubli ($\lambda = 1$), l'algorithme ne peut pas suivre les variations de paramètres car la matrice $\mat{P}$ converge vers zéro. Le facteur d'oubli $\lambda$ contrôle le compromis entre réactivité et sensibilité au bruit : $\lambda = 0.95$ offre un bon équilibre dans notre cas. Le choix optimal de $\lambda$ dépend de la vitesse de variation des paramètres et du niveau de bruit.
+
+% =============================================================================
+% CONCLUSION GÉNÉRALE
+% =============================================================================
+\section{Conclusion générale}
+
+\subsection{Synthèse des résultats}
+
+Ce TP a permis d'étudier en profondeur la méthode des moindres carrés pour l'identification de systèmes dynamiques :
+
+\begin{enumerate}
+    \item \textbf{Aspect théorique :} La méthode MC fournit une solution analytique explicite grâce à la linéarité de l'erreur de prédiction en les paramètres, contrairement à la méthode du modèle (OE) qui nécessite des algorithmes itératifs.
+
+    \item \textbf{Biais de l'estimateur :} En présence de bruit de sortie, l'estimateur MC est biaisé. Ce biais est inhérent à la corrélation entre le régresseur et le bruit, et il diminue quand le RSB augmente.
+
+    \item \textbf{Version récursive :} L'algorithme MCR permet l'estimation en temps réel avec une complexité constante par itération.
+
+    \item \textbf{Suivi de paramètres :} Le facteur d'oubli $\lambda$ est essentiel pour les systèmes non stationnaires, permettant d'adapter la réactivité de l'estimateur.
+\end{enumerate}
+
+\subsection{Limitations observées}
+
+Le principal inconvénient de la méthode des moindres carrés est le \textbf{biais} en présence de bruit de sortie. Pour y remédier, d'autres méthodes existent comme les variables instrumentales ou la méthode du modèle (OE).
+
+Concernant le choix de $\lambda$ dans l'algorithme MCR, il dépend fortement de l'application : un système à paramètres rapidement variables nécessite un $\lambda$ plus faible, au prix d'une estimation plus bruitée.
+
+Enfin, les concepts d'estimation récursive étudiés ici constituent une introduction naturelle au \textbf{filtre de Kalman} pour l'estimation d'état de systèmes dynamiques.
+
+\end{document}
