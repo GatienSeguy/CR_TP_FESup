@@ -32,24 +32,24 @@
 \contentsline {subsection}{\numberline {IV.4}Étude statistique (Monte Carlo)}{11}{subsection.4.4}%
 \contentsline {paragraph}{Ligne supérieure (paramètre $a$) :}{11}{figure.4}%
 \contentsline {paragraph}{Ligne inférieure (paramètre $b$) :}{11}{figure.4}%
-\contentsline {subsection}{\numberline {IV.5}Convergence de l'estimateur}{13}{subsection.4.5}%
+\contentsline {subsection}{\numberline {IV.5}Convergence de l'estimateur}{12}{subsection.4.5}%
 \contentsline {subsection}{\numberline {IV.6}Bilan de la Manipulation 1}{13}{subsection.4.6}%
-\contentsline {section}{\numberline {V}Manipulation 2 : Moindres Carrés Récursifs avec facteur d'oubli}{14}{section.5}%
-\contentsline {subsection}{\numberline {V.1}Objectif}{14}{subsection.5.1}%
+\contentsline {section}{\numberline {V}Manipulation 2 : Moindres Carrés Récursifs avec facteur d'oubli}{13}{section.5}%
+\contentsline {subsection}{\numberline {V.1}Objectif}{13}{subsection.5.1}%
 \contentsline {subsection}{\numberline {V.2}MCR sur système stationnaire}{14}{subsection.5.2}%
 \contentsline {paragraph}{Graphique supérieur gauche (Signaux) :}{14}{figure.6}%
 \contentsline {paragraph}{Graphique supérieur droit (Paramètres estimés) :}{14}{figure.6}%
-\contentsline {paragraph}{Graphique inférieur gauche (Matrice P) :}{15}{figure.6}%
+\contentsline {paragraph}{Graphique inférieur gauche (Matrice P) :}{14}{figure.6}%
 \contentsline {paragraph}{Graphique inférieur droit (Gain de Kalman K) :}{15}{figure.6}%
 \contentsline {subsection}{\numberline {V.3}Système non stationnaire}{15}{subsection.5.3}%
 \contentsline {subsection}{\numberline {V.4}Influence du facteur d'oubli}{15}{subsection.5.4}%
 \contentsline {subsubsection}{\numberline {V.4.1}Cas $\lambda = 1$ (pas d'oubli)}{15}{subsubsection.5.4.1}%
-\contentsline {subsubsection}{\numberline {V.4.2}Cas $\lambda = 0.98$ (oubli faible)}{16}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {V.4.2}Cas $\lambda = 0.98$ (oubli faible)}{15}{subsubsection.5.4.2}%
 \contentsline {subsubsection}{\numberline {V.4.3}Cas $\lambda = 0.95$ (oubli modéré)}{16}{subsubsection.5.4.3}%
 \contentsline {subsubsection}{\numberline {V.4.4}Cas $\lambda = 0.90$ (oubli fort)}{16}{subsubsection.5.4.4}%
 \contentsline {subsection}{\numberline {V.5}Comparaison synthétique}{17}{subsection.5.5}%
 \contentsline {subsection}{\numberline {V.6}Étude statistique avec $\lambda = 0.95$}{17}{subsection.5.6}%
 \contentsline {subsection}{\numberline {V.7}Bilan de la Manipulation 2}{18}{subsection.5.7}%
-\contentsline {section}{\numberline {VI}Conclusion générale}{19}{section.6}%
-\contentsline {subsection}{\numberline {VI.1}Synthèse des résultats}{19}{subsection.6.1}%
-\contentsline {subsection}{\numberline {VI.2}Limitations observées}{20}{subsection.6.2}%
+\contentsline {section}{\numberline {VI}Conclusion générale}{18}{section.6}%
+\contentsline {subsection}{\numberline {VI.1}Synthèse des résultats}{18}{subsection.6.1}%
+\contentsline {subsection}{\numberline {VI.2}Limitations observées}{19}{subsection.6.2}%

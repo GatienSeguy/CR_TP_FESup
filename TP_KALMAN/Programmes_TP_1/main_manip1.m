@@ -1,32 +1,37 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MANIPULATION 1 : Méthode des Moindres Carrés
+% Script principal (version sans toolbox)
+% Sauvegarde les figures pour le rapport LaTeX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 clear all; close all; clc;
 
-% Créer le dossier pour les figures
+% Chemin pour sauvegarder les figures
 figPath = '../LATEX/figures/';
 if ~exist(figPath, 'dir')
     mkdir(figPath);
 end
 
-fprintf('\n=== PARTIE 1 : Méthode des Moindres Carrés ===\n');
-
-N = 100; % nombre d'échantillons
-
-% Système stationnaire du 1er ordre
+%% Paramètres du système (équivalent à systeme_stationnaire.m)
 Ka = 1; tau = 0.1;
 Te = 0.1; Fe = 1/Te;
 a = -exp(-Te/tau);  % a = -0.3679
 b = Ka*(1+a);       % b = 0.6321
-t = (0:N-1)*Te; t = t(:);
 
-fprintf('Paramètres du système : a = %.4f, b = %.4f\n', a, b);
+% Fonction pour simuler le système H(z) = b*z^-1 / (1 + a*z^-1)
+simulate_sys = @(a_val, b_val, e_val) filter([0 b_val], [1 a_val], e_val);
+
+%% ========================================================================
+% PARTIE 1 : Comparaison méthode des MC pour différents RSB
+% =========================================================================
+fprintf('\n=== PARTIE 1 : Méthode des Moindres Carrés ===\n');
+
+N = 100;
+t = (0:N-1)*Te; t = t(:);
 
 % Signal d'entrée : chirp
 f_min = 0; f_max = 0.25*Fe;
-e = chirp(t, f_min, max(t), f_max);
-e = e(:);
-
-% Fonction pour simuler le système H(z) = b*z^-1 / (1 + a*z^-1)
-% Équation : y[n] = b*e[n-1] - a*y[n-1]
-simulate_sys = @(a, b, e) filter([0 b], [1 a], e);
+e = chirp(t, f_min, max(t), f_max); e = e(:);
 
 % Test avec différents RSB
 RSB_values = [100, 10, 1];
@@ -85,15 +90,14 @@ for idx = 1:length(RSB_values)
     close(fig);
 end
 
+%% ========================================================================
+% PARTIE 2 : Étude statistique - Effet du bruit sur l'estimateur MC
+% =========================================================================
 fprintf('\n=== PARTIE 2 : Étude statistique de l''effet du bruit ===\n');
 
 N = 100;
 I = 500; % nombre de simulations
 
-% Système
-Ka = 1; tau = 0.1;
-Te = 0.1; Fe = 1/Te;
-a = -exp(-Te/tau); b = Ka*(1+a);
 t = (0:N-1)*Te; t = t(:);
 
 % Entrée chirp
@@ -106,7 +110,7 @@ s = simulate_sys(a, b, e);
 % Test pour différents RSB
 RSB_test = [100, 10, 5, 2];
 
-fig_stat = figure('Position', [100 100 1000 800], 'Visible', 'off');
+fig_stat = figure('Position', [100 100 1200 800], 'Visible', 'off');
 
 for k = 1:length(RSB_test)
     RSB = RSB_test(k);
@@ -180,7 +184,7 @@ for i = 1:I
     B_est_mc(i) = est(2);
 end
 
-fig = figure('Position', [100 100 900 500], 'Visible', 'off');
+fig = figure('Position', [100 100 1000 500], 'Visible', 'off');
 subplot(1,2,1);
 plot(1:I, a*ones(I,1), 'r', 'LineWidth', 2); hold on;
 plot(1:I, A_est_mc, 'g.', 'MarkerSize', 4);

@@ -1,0 +1,374 @@
+\documentclass[12pt]{article}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\setlength{\headheight}{36.0976pt}
+\addtolength{\topmargin}{-21.0976pt}
+\usepackage{pifont}
+\usepackage{geometry}
+\usepackage{listings}
+
+\usepackage{ragged2e}  % Justify text
+
+
+%Sousligne
+\usepackage{ulem}
+\usepackage{amsmath}
+\usepackage{matlab-prettifier}
+\usepackage{mathtools, bm}
+\usepackage{amssymb, bm}
+
+% Commandes pour vecteurs et matrices
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\usepackage{xcolor}
+\makeatletter
+\let\ps@plain\ps@fancy
+\makeatother
+\def\ind{\textrm{1\kern-0.25emI}}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    keywordstyle=\color{blue},
+    commentstyle=\color{codegreen},
+    numberstyle=\tiny\color{black},
+    frame=single,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=mystyle}
+\usepackage{amsmath}
+%Sousligne
+\usepackage{ulem}
+%Circuit elec
+\usepackage[european, straightvoltages]{circuitikz}
+
+
+\usepackage{tcolorbox}
+\newtcolorbox{definitionbox}[1][]{%
+  colback=white,
+  colframe=subsectioncolor,
+  boxrule=0.5pt,
+  arc=0pt,
+  outer arc=0pt,
+  left=2mm,
+  right=2mm,
+  top=1mm,
+  bottom=1mm,
+  title=#1
+}
+
+\newtcolorbox{theorembox}[1][]{%
+  colback=white,
+  colframe=sectioncolor,
+  boxrule=0.5pt,
+  arc=0pt,
+  outer arc=0pt,
+  left=2mm,
+  right=2mm,
+  top=1mm,
+  bottom=1mm,
+  title=#1
+}
+
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\SetKwInput{KwIn}{Entrée}
+\SetKwInput{KwOut}{Sortie}
+
+%test
+%%%%%%%%%%%%%%%%%% TABLE DES MATIERES %%%%%%%
+\usepackage{tocloft} % Pour la table des matieres
+%Configuration de la table des matières
+\renewcommand{\cftsecfont}
+{\color{sectioncolor}\bfseries}
+\renewcommand{\cftsecpagefont}{\color{sectioncolor}\bfseries}
+\setlength{\cftsecnumwidth}{2.5em}
+\cftsetindents{section}{0em}{3em}
+
+% Pour les sous-sections
+\renewcommand{\cftsubsecfont}{\color{subsectioncolor}\bfseries}
+\renewcommand{\cftsubsecpagefont}{\color{subsectioncolor}\bfseries}
+\setlength{\cftsubsecnumwidth}{3em}
+
+
+% Pour les sous-sous-sections (même couleur, sans gras)
+\renewcommand{\cftsubsubsecfont}{\color{subsectioncolor}}
+\cftsetindents{subsubsection}{4em}{4.5em}
+\renewcommand{\cftsubsubsecpagefont}{\color{subsectioncolor}}
+\cftsetindents{subsection}{2em}{4em}
+%\setlength{\cftsubsubsecnumwidth}{3.5em}
+
+
+%%%%% PARTIES
+\renewcommand{\cftpartfont}{\color{sectioncolor}\bfseries\Large}
+\renewcommand{\cftpartpagefont}
+{\color{sectioncolor}\bfseries\Large}
+\cftsetindents{part}{0em}{4em}
+
+\renewcommand{\cftbeforepartskip}{1em}
+\renewcommand{\cftpartfont}{%
+  \color{sectioncolor}\bfseries\Large%
+  \rule{\linewidth}{0.4pt}\\%
+}
+
+\renewcommand{\cftpartpresnum}{}
+\setlength{\cftpartnumwidth}{0em}
+\renewcommand{\thepart}{}
+
+
+\usepackage{hyperref}
+\hypersetup{
+    %colorlinks=true,
+    linktoc=all,
+    %linkcolor=sectioncolor,
+    filecolor=sectioncolor,
+    urlcolor=subsectioncolor,
+    pdfborder={0 0 0},
+}
+
+%Pour titre plus coool
+\usepackage{mdframed}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs} % Pour de plus jolies tableaux
+\usepackage{titlesec}
+% Configuration de la géométrie de la page
+\geometry{a4paper, top=2cm, bottom=2cm, left=2cm, right=2cm, headheight=15pt, includeheadfoot}
+% Configuration des en-têtes et des pieds de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\includegraphics[width=2.5cm]{images.png}}
+
+%Configuration des parties
+\titleformat{\part}[display]
+    {\Huge\bfseries\centering\color{sectioncolor}}
+    {}
+    {0pt}
+    {\rule{\textwidth}{1pt}\\\vspace{0.2em}}
+    [\vspace{0.2em}\rule{\textwidth}{1pt}]
+
+\titlespacing*{\part}
+    {0pt}  % Espacement gauche
+    {-60pt} % Espacement avant (valeur négative pour monter)
+    {20pt}  % Espacement après
+
+
+%%%%%%%%%% NUMERA UE %%%%%%%
+\fancyhead[L]{Identification par Moindres Carrés}
+
+%%%%%%%%%%%% Nom matière
+
+\fancyfoot[L]{Gatien Séguy \& }
+
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{xcolor}
+\definecolor{sectioncolor}{rgb}{0.7, 0.1, 0.1} % Définir la couleur rouge
+
+% Configuration des titres de sections
+
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{sectioncolor}}{\thesection}{1em}{}
+%{\normalfont\large\bfseries\color{sectioncolor}\MakeUppercase}{\thesection}{1em}{}
+
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+
+
+%Configuration des sous titre
+\usepackage{xcolor}
+\definecolor{subsectioncolor}{rgb}{0, 0.51, 0.58}
+% Configuration des titres des sous-sections
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{subsectioncolor}}{\thesubsection}{1em}{}
+
+% Configuration des titres des sous-sous-sections
+\titleformat{\subsubsection}
+{\normalfont\normalsize\bfseries\color{subsectioncolor}}{\thesubsubsection}{1em}{}
+
+\begin{comment} % BLASON 1
+\usepackage{background}
+\newcommand{\blasonpage}{%
+  \backgroundsetup{
+    scale=0.5,
+    angle=0,
+    opacity=0.05,
+    contents={\includegraphics[width=1.2\paperwidth]{CH_ZH_logo_Kanton_court.png}}
+  }
+  \BgThispage
+}
+\end{comment}
+
+\begin{document}
+\fontsize{13pt}{15pt}\selectfont
+
+\begin{titlepage}
+\thispagestyle{empty}
+%\blasonpage % BLASON 2
+\begin{center}
+    % ESPACE HAUT
+    %\vspace*{0.8cm}
+
+    % LES 4 LOGOS EN UNE LIGNE
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Logo_ENS_leger(1).jpg}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \vspace{-0.4cm}
+        \includegraphics[width=\linewidth]{logo_univPS.png}
+    \end{minipage}
+
+    \vspace{1.4cm}
+
+    {\Large \textbf{ÉCOLE NORMALE SUPÉRIEURE PARIS-SACLAY}}\\
+    {\small (Université Paris-Saclay)}\\[0.2cm]
+
+
+        \vspace{0.3cm}
+    \noindent\makebox[\textwidth]{\color{black}\rule{1\textwidth}{2pt}}\\[-1pt]
+    \noindent\makebox[\textwidth]{\color{black}\rule{0.8\textwidth}{1pt}}
+    \vspace{0.3cm}
+
+
+    {\Huge  \color{sectioncolor} \textbf{Compte rendu de TP}}\\[0.2cm]
+
+{\large \textbf{Matière :} \itshape Automatique non-linéaire et Filtrage de Kalman }\\[0.2cm]
+
+
+    %%%% TRAIT
+    \vspace{0.3cm}
+    \noindent\makebox[\textwidth]{\color{black}\rule{0.8\textwidth}{1pt}}\\[-1pt]
+    \noindent\makebox[\textwidth]{\color{black}\rule{1\textwidth}{2pt}}
+    \vspace{0.3cm}
+
+    %Fin Trait
+    \vspace{0.1cm}
+    {\LARGE \textbf{TP2 - Éstimation de la position et de la vitesse d'un mobile par filtrage de Kalman}}\\[1cm]
+
+    \begin{tabular}{rl}
+    \textbf{Nom de l'étudiant :} & Gatien Séguy \& Maxime Degraeve \\
+    \textbf{Établissement :} & ENS Paris-Saclay (Département EEA) \\
+    \textbf{Encadrante :} & Jean-Pierre Barbot\\
+    \textbf{Date :} & \today \\
+    \end{tabular}
+
+    \vfill
+
+\end{center}
+\end{titlepage}
+% \backgroundsetup{contents={}} % BLASON 3
+% Sommaire
+
+\newpage
+\vspace*{0.5cm}
+\tableofcontents
+\newpage
+
+
+% =============================================================================
+% INTRODUCTION GÉNÉRALE
+% =============================================================================
+\section{Introduction}
+
+
+\subsection{Préparation 1}
+Pour $t\geq kT$, on a : 
+
+\[
+\begin{cases}
+\sigma(t) = v_k + \int_{kT}^{t} \gamma(\tau)\, d\tau\\
+d(t) = d_k + \int_{kT}^{t} v(\tau)\, d\tau
+\end{cases}
+\]
+
+Si $kT \geq t \geq (k+A)T$ : 
+\(
+\gamma (\tau) = \gamma_k 
+\)
+D'où : \(v(t) = v_k + \gamma_k(t-kT) \)
+et aux instant d'échantillonnage :
+\[
+\begin{cases}
+v_{k+1} = v_k + \gamma_kT \, | \, \text{ pour } t=(k+1)T \\
+d_{k+1} = d_k + \frac{\gamma_k}{2}T^2
+\end{cases}
+\]
+
+Le vecteur d'état : \\
+\[
+x_{k+1} = \begin{pmatrix}
+d_{k+1}\\
+v_{k+1}
+\end{pmatrix}
+= \begin{pmatrix}
+1 & T \\
+0 & 1     
+\end{pmatrix}
+\begin{pmatrix}
+d_k \\
+v_k
+\end{pmatrix}
++ 
+0 u_k + b_k \; \; | \; \; \text{ avec } b_k = \begin{pmatrix}
+\frac{T^2}{2} \\
+T
+\end{pmatrix}
+ \gamma_k = B \gamma_k
+\]
+
+\[
+\mathbb Q = \mathbb E [b_k \cdot b_k^T] = \begin{pmatrix}
+    T^2 /2 \\ 
+    T
+\end{pmatrix}
+\begin{pmatrix}
+    T^2/2 & T
+\end{pmatrix}
+\sigma_{\gamma}
+\]
+
+D'où :\\
+\[
+\boxed{
+    \mathbb Q = \begin{pmatrix}
+        \frac{T^2}{2} & \frac{T^3}{2} \\
+        \frac{T^3}{2} & \frac{T^2}{2}
+    \end{pmatrix}
+}
+\]
+On a également
+\[
+\begin{cases}
+x_{k+1} = A x_k + b_k \\
+y_{k+1} = d_k + w_k = C_k x_k + w_k = \begin{pmatrix}
+    1 & 0
+\end{pmatrix}
+x_k + w_k
+\end{cases}
+\]
+\[
+x_k = \begin{pmatrix}
+    d_k \\
+    v_k
+\end{pmatrix}
+\]
+\end{document}
