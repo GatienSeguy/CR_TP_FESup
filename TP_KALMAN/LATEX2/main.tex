@@ -167,7 +167,7 @@
 
 
 %%%%%%%%%% NUMERA UE %%%%%%%
-\fancyhead[L]{Identification par Moindres Carrés}
+\fancyhead[L]{Filtrage de Kalman}
 
 %%%%%%%%%%%% Nom matière
 
@@ -505,108 +505,7 @@ end
 \subsubsection{Illustration du fonctionnement du filtre de Kalman}
 % ===========================================================================
 
-Cette section presente les resultats de l'option 1 du programme.
 
-\paragraph{Protocole experimental}
 
-On simule une trajectoire de $k_{\max} = 20$ iterations avec :
-\begin{itemize}
-    \item Bruits d'etat $\gamma_k$ et d'observation $w_k$ gaussiens
-    \item Etat initial : $d_0 = 0$ m, $v_0 = 1$ m/s
-    \item Comparaison de trois methodes d'estimation :
-    \begin{itemize}
-        \item Etat exact (reference)
-        \item Estimation par filtre de Kalman
-        \item Estimation naive : observation directe pour la position, derivation numerique pour la vitesse ($\hat{v}_k = (y_k - y_{k-1})/T$)
-    \end{itemize}
-\end{itemize}
-
-\paragraph{Comparaison des estimations}
-
-La figure \ref{fig:comparaison_complete} compare les trois approches.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figures/fig6_comparaison_complete.png}
-    \caption{Comparaison de l'etat exact, de l'estimation par FK et des observations}
-    \label{fig:comparaison_complete}
-\end{figure}
-
-\textbf{Observations :}
-\begin{itemize}
-    \item \textbf{Position} : l'estimation FK (bleu) suit fidelement la position exacte (rouge), avec une precision comparable a l'observation directe (magenta).
-    \item \textbf{Vitesse} : le FK (bleu) fournit une estimation stable et proche de la vitesse exacte, alors que la derivee des observations (magenta) est tres bruitee avec des oscillations de l'ordre de $\pm 0{,}3$ m/s.
-\end{itemize}
-
-\paragraph{Analyse des erreurs d'estimation}
-
-La figure \ref{fig:erreurs} presente l'evolution des erreurs d'estimation.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figures/fig7_erreurs_estimation.png}
-    \caption{Evolution des erreurs d'estimation de position et de vitesse}
-    \label{fig:erreurs}
-\end{figure}
-
-\textbf{Observations :}
-\begin{itemize}
-    \item L'erreur de position du FK est du meme ordre de grandeur que l'erreur d'observation ($\approx \pm 0{,}15$ m).
-    \item L'erreur de vitesse du FK ($\approx \pm 0{,}1$ m/s) est \textbf{4 fois plus faible} que celle de la derivee ($\approx \pm 0{,}4$ m/s).
-\end{itemize}
-
-\paragraph{Validation de la covariance calculee par le filtre}
-
-La figure \ref{fig:bornes_3sigma} montre que l'erreur d'estimation reste contenue dans les bornes a $\pm 3\sigma$ calculees par le FK.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figures/fig10_erreur_bornes_3sigma.png}
-    \caption{Erreur d'estimation avec les bornes a $3\sigma$ calculees par le FK}
-    \label{fig:bornes_3sigma}
-\end{figure}
-
-\textbf{Observations :}
-\begin{itemize}
-    \item L'erreur reste dans l'intervalle $[-3\sigma, +3\sigma]$ tout au long de la simulation.
-    \item Les bornes convergent rapidement : apres environ 5 iterations, la covariance atteint son regime permanent.
-    \item Cela valide la \textbf{coherence du filtre} : la matrice $\mat{P}$ calculee represente bien l'incertitude reelle.
-\end{itemize}
-
-\paragraph{Conclusion}
-
-Le filtre de Kalman fournit une estimation optimale de l'etat du mobile :
-\begin{itemize}
-    \item La position estimee est aussi precise que la mesure directe.
-    \item La vitesse estimee est bien meilleure que l'estimation naive par derivation.
-    \item La matrice de covariance $\mat{P}$ est coherente avec la dispersion reelle des erreurs.
-\end{itemize}
-
-% ===========================================================================
-% Descriptions des autres options (sans resultats)
-% ===========================================================================
-
-\subsubsection{Description des autres options du programme}
-
-\paragraph{Option 2 : Etude statistique avec bruits gaussiens}
-\textbf{Objectif :} Valider statistiquement que $\mat{P}$ correspond a la dispersion reelle des erreurs via $N = 10000$ simulations Monte-Carlo.
-
-\paragraph{Option 3 : Effet de la ddp (bruits uniformes)}
-\textbf{Objectif :} Verifier la robustesse du FK avec des bruits non-gaussiens (uniformes de meme variance).
-
-\paragraph{Option 4 : Effet de l'etat initial}
-\textbf{Objectif :} Montrer la convergence du FK meme avec une initialisation erronee ($\hat{\mat{x}}_0 = (0, 0)^T$ au lieu de $(0, 1)^T$).
-
-\paragraph{Option 5 : Effet de la covariance initiale}
-\textbf{Objectif :} Etudier l'influence de $\mat{P}_0$ (nominal, $\times 100$, $\times 0{,}01$) sur la convergence.
-
-\paragraph{Option 6 : Effet de l'erreur sur $\mat{Q}$}
-\textbf{Objectif :} Analyser les consequences d'une sur/sous-estimation de la covariance du bruit d'etat.
-
-\paragraph{Option 7 : Effet de l'erreur sur $R$}
-\textbf{Objectif :} Analyser les consequences d'une sur/sous-estimation de la covariance du bruit d'observation.
-
-\paragraph{Option 8 : Test de coherence}
-\textbf{Objectif :} Utiliser la distance de Mahalanobis $\delta_k = |y_k - \hat{y}_{k|k-1}|/\sigma_k$ comme indicateur de coherence du filtre. Si $\delta_k > 3$ regulierement, cela indique une erreur de modelisation.
 
 \end{document}
