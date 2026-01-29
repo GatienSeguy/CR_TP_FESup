@@ -439,199 +439,174 @@ Le programme principal \texttt{exemple\_FK.m} est organise sous forme de menu in
     \item \texttt{trace\_ellipse\_P.m} : trace d'ellipses de covariance
 \end{itemize}
 
+\paragraph{Initialisation et modele du systeme}
 
-La premiere partie du programme definit les parametres du modele :
+La premiere partie du programme definit les parametres du modele conformement a la preparation 1 :
 
 \begin{lstlisting}[language=Matlab]
-T = 1;                    % Periode d'echantillonnage
+T = 1;                    % Periode d'echantillonnage (s)
 v_0 = 1; m_0 = [0;v_0];   % Etat initial moyen
 P_0 = 100*I;              % Covariance initiale
 
 A = [1 T; 0 1];           % Matrice d'etat
 V = [T^2/2; T];           % Matrice du bruit d'etat
-std_g = 0.01;             % Ecart-type acceleration
+std_g = 0.01;             % Ecart-type acceleration (m/s^2)
 Q = std_g^2*V*V';         % Covariance bruit d'etat
 
 C = [1 0];                % Matrice d'observation
-std_w = 0.1*v_0*T;        % Ecart-type bruit de mesure
+std_w = 0.1*v_0*T;        % Ecart-type bruit de mesure (m)
 R = std_w^2;              % Covariance bruit d'observation
 \end{lstlisting}
 
-\textbf{Objectif :} Definir le modele d'etat conformement aux equations de la preparation 1, avec les valeurs numeriques specifiees dans l'enonce ($T = 1$ s, $\sigma_\gamma = 0{,}01$ m/s$^2$, $\sigma_d = 0{,}1$ m).
+\paragraph{Options du menu}
 
-\bigskip
-\hrule
-\hrule
-\bigskip
+Le programme propose huit options d'etude :
 
-\textbf{Option 1 }: Illustration du fonctionnement du filtre de Kalman\\
-Cette option realise les etapes suivantes :\\
+\begin{enumerate}
+    \item \textbf{Illustration du fonctionnement du FK} : simulation d'une trajectoire et comparaison des estimations
+    \item \textbf{Etude statistique (bruits gaussiens)} : validation Monte-Carlo avec $N = 10000$ trajectoires
+    \item \textbf{Effet de la ddp (bruits uniformes)} : verification de la robustesse aux bruits non-gaussiens
+    \item \textbf{Effet de l'etat initial} : convergence avec initialisation erronee
+    \item \textbf{Effet de la covariance initiale} : influence de $\mat{P}_0$
+    \item \textbf{Effet de l'erreur sur $\mat{Q}$} : consequences d'une erreur sur la covariance du bruit d'etat
+    \item \textbf{Effet de l'erreur sur $R$} : consequences d'une erreur sur la covariance du bruit d'observation
+    \item \textbf{Test de coherence} : distance de Mahalanobis de l'innovation
+\end{enumerate}
 
-Simulation de la trajectoire reelle
-Generation d'une trajectoire de $k_{\max} = 20$ iterations avec :
+\paragraph{Implementation du filtre de Kalman}
 
-\begin{itemize}
-    \item Bruits d'etat $\gamma_k$ et d'observation $w_k$ gaussiens
-    \item Calcul des observations $y_k = d_k + w_k$
-    \item Estimation naive de la vitesse par derivation : $\hat{v}_k = (y_k - y_{k-1})/T$
-\end{itemize}
-
-\textit{Implementation du filtre de Kalman}
-
+Le coeur du programme est la boucle du filtre de Kalman :
 
 \begin{lstlisting}[language=Matlab]
 for k = 1:k_max-1
-    x_pred(:,k+1) = A*x_est(:,k);           % Prediction
-    P = A*P*A' + Q;                          % Covariance predite
-    K = P*C'*inv(C*P*C' + R);               % Gain de Kalman
-    P = (I - K*C)*P;                         % Covariance corrigee
-    y_pred(k+1) = C*x_pred(:,k+1);          % Observation predite
-    x_est(:,k+1) = x_pred(:,k+1) + K*(y(k+1) - y_pred(k+1)); % Correction
+    % Prediction
+    x_pred(:,k+1) = A*x_est(:,k);
+    P = A*P*A' + Q;
+
+    % Gain de Kalman
+    K = P*C'*inv(C*P*C' + R);
+
+    % Correction
+    P = (I - K*C)*P;
+    y_pred(k+1) = C*x_pred(:,k+1);
+    x_est(:,k+1) = x_pred(:,k+1) + K*(y(k+1) - y_pred(k+1));
 end
 \end{lstlisting}
 
-\textbf{Objectif :} Illustrer visuellement le fonctionnement du filtre de Kalman en comparant l'etat reel, l'etat estime par FK et l'estimation naive (derivation). On observe que le FK fournit une estimation bien plus precise, notamment pour la vitesse.
+\paragraph{Fonctions auxiliaires}
 
-\paragraph{Visualisation des ellipses de confiance}
-Le programme trace les ellipses a $3\sigma$ (contenant 99\% de la distribution gaussienne) illustrant :
 \begin{itemize}
-    \item L'ellipse bleue : precision de l'estimation apres correction
-    \item L'ellipse verte pointillee : precision de la prediction sans bruit d'etat
-    \item L'ellipse verte : precision de la prediction avec bruit d'etat
-    \item La bande jaune : incertitude de l'observation
+    \item \texttt{trace\_ellipse\_P(Centre, P, couleur)} : trace une ellipse de covariance par diagonalisation de $\mat{P}$
+    \item \texttt{nuage\_n(...)} : etude Monte-Carlo avec bruits gaussiens (\texttt{randn})
+    \item \texttt{nuage\_u(...)} : etude Monte-Carlo avec bruits uniformes (\texttt{rand})
 \end{itemize}
 
-\textbf{Objectif :} Visualiser geometriquement le compromis realise par le filtre entre prediction et observation.
+% ===========================================================================
+\subsubsection{Illustration du fonctionnement du filtre de Kalman}
+% ===========================================================================
 
-\bigskip
-\hrule
-\hrule
-\bigskip
+Cette section presente les resultats de l'option 1 du programme.
 
-\textbf{Option 2} : Etude statistique avec bruits gaussiens
+\paragraph{Protocole experimental}
 
-Cette option appelle la fonction \texttt{nuage\_n} qui :
+On simule une trajectoire de $k_{\max} = 20$ iterations avec :
 \begin{itemize}
-    \item Simule $N = 10000$ trajectoires independantes
-    \item Calcule l'erreur d'estimation finale $\mat{x}_{k_{\max}} - \hat{\mat{x}}_{k_{\max}}$ pour chaque trajectoire
-    \item Trace le nuage de points des erreurs et l'ellipse de covariance calculee par le FK
-    \item Compare la covariance empirique avec la covariance theorique
+    \item Bruits d'etat $\gamma_k$ et d'observation $w_k$ gaussiens
+    \item Etat initial : $d_0 = 0$ m, $v_0 = 1$ m/s
+    \item Comparaison de trois methodes d'estimation :
+    \begin{itemize}
+        \item Etat exact (reference)
+        \item Estimation par filtre de Kalman
+        \item Estimation naive : observation directe pour la position, derivation numerique pour la vitesse ($\hat{v}_k = (y_k - y_{k-1})/T$)
+    \end{itemize}
 \end{itemize}
 
-\textbf{Objectif :} Valider statistiquement que la matrice de covariance $\mat{P}$ calculee par le filtre de Kalman correspond bien a la dispersion reelle des erreurs d'estimation.
+\paragraph{Comparaison des estimations}
 
-\bigskip
-\hrule
-\hrule
-\bigskip
+La figure \ref{fig:comparaison_complete} compare les trois approches.
 
-\textbf{Option 3} : Effet de la densite de probabilite (bruits uniformes)
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/fig6_comparaison_complete.png}
+    \caption{Comparaison de l'etat exact, de l'estimation par FK et des observations}
+    \label{fig:comparaison_complete}
+\end{figure}
 
-La fonction \texttt{nuage\_u} realise la meme etude statistique mais avec des bruits uniformes (au lieu de gaussiens) :
-\begin{lstlisting}[language=Matlab]
-g = std_g*(rand(1,k_max) - 0.5)*2*sqrt(3);  % Bruit uniforme
-w = std_w*(rand(1,k_max) - 0.5)*2*sqrt(3);  % meme variance que gaussien
-\end{lstlisting}
-
-\textbf{Objectif :} Verifier que le filtre de Kalman reste performant meme lorsque les bruits ne sont pas gaussiens. Le facteur $2\sqrt{3}$ assure que la variance du bruit uniforme est identique a celle du bruit gaussien.
-
-\bigskip
-\hrule
-\hrule
-\bigskip
-
-\textbf{Option 4} : Effet de l'etat initial
-
-Comparaison de deux initialisations differentes :
+\textbf{Observations :}
 \begin{itemize}
-    \item Initialisation 1 : $\hat{\mat{x}}_0 = (0, 1)^T$ (etat initial reel)
-    \item Initialisation 2 : $\hat{\mat{x}}_0 = (0, 0)^T$ (vitesse initiale erronee)
+    \item \textbf{Position} : l'estimation FK (bleu) suit fidelement la position exacte (rouge), avec une precision comparable a l'observation directe (magenta).
+    \item \textbf{Vitesse} : le FK (bleu) fournit une estimation stable et proche de la vitesse exacte, alors que la derivee des observations (magenta) est tres bruitee avec des oscillations de l'ordre de $\pm 0{,}3$ m/s.
 \end{itemize}
 
-\textbf{Objectif :} Montrer que le filtre de Kalman converge vers l'etat reel meme avec une initialisation erronee, grace a l'apport d'information des observations successives.
+\paragraph{Analyse des erreurs d'estimation}
 
-\bigskip
-\hrule
-\hrule
-\bigskip
+La figure \ref{fig:erreurs} presente l'evolution des erreurs d'estimation.
 
-\textbf{Option 5} : Effet de la covariance initiale
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/fig7_erreurs_estimation.png}
+    \caption{Evolution des erreurs d'estimation de position et de vitesse}
+    \label{fig:erreurs}
+\end{figure}
 
-Comparaison de trois valeurs de covariance initiale :
+\textbf{Observations :}
 \begin{itemize}
-    \item $\mat{P}_0$ : valeur nominale
-    \item $100 \times \mat{P}_0$ : grande incertitude initiale (surestimation)
-    \item $0{,}01 \times \mat{P}_0$ : faible incertitude initiale (sous-estimation)
+    \item L'erreur de position du FK est du meme ordre de grandeur que l'erreur d'observation ($\approx \pm 0{,}15$ m).
+    \item L'erreur de vitesse du FK ($\approx \pm 0{,}1$ m/s) est \textbf{4 fois plus faible} que celle de la derivee ($\approx \pm 0{,}4$ m/s).
 \end{itemize}
 
-\textbf{Objectif :} Etudier l'influence de $\mat{P}_0$ sur la convergence du filtre. Une surestimation de $\mat{P}_0$ donne plus de poids aux observations et accelere la convergence. Une sous-estimation peut ralentir la convergence car le filtre "fait trop confiance" a sa prediction.
+\paragraph{Validation de la covariance calculee par le filtre}
 
-\bigskip
-\hrule
-\hrule
-\bigskip
+La figure \ref{fig:bornes_3sigma} montre que l'erreur d'estimation reste contenue dans les bornes a $\pm 3\sigma$ calculees par le FK.
 
-\textbf{Option 6} : Effet de l'erreur sur la covariance du bruit d'etat $\mat{Q}$
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/fig10_erreur_bornes_3sigma.png}
+    \caption{Erreur d'estimation avec les bornes a $3\sigma$ calculees par le FK}
+    \label{fig:bornes_3sigma}
+\end{figure}
 
-Comparaison de trois valeurs de $\mat{Q}$ utilisees dans le filtre :
+\textbf{Observations :}
 \begin{itemize}
-    \item $\mat{Q}$ : valeur correcte
-    \item $10 \times \mat{Q}$ : surestimation du bruit d'etat
-    \item $0{,}1 \times \mat{Q}$ : sous-estimation du bruit d'etat
+    \item L'erreur reste dans l'intervalle $[-3\sigma, +3\sigma]$ tout au long de la simulation.
+    \item Les bornes convergent rapidement : apres environ 5 iterations, la covariance atteint son regime permanent.
+    \item Cela valide la \textbf{coherence du filtre} : la matrice $\mat{P}$ calculee represente bien l'incertitude reelle.
 \end{itemize}
 
-\textbf{Objectif :} Analyser les consequences d'une erreur de modelisation sur $\mat{Q}$ :
+\paragraph{Conclusion}
+
+Le filtre de Kalman fournit une estimation optimale de l'etat du mobile :
 \begin{itemize}
-    \item \textbf{Surestimation} ($10\mat{Q}$) : le filtre accorde plus de poids aux observations, l'estimation est plus bruitee mais suit mieux les variations.
-    \item \textbf{Sous-estimation} ($0{,}1\mat{Q}$) : le filtre fait trop confiance au modele, l'estimation est plus lisse mais peut presenter un biais.
+    \item La position estimee est aussi precise que la mesure directe.
+    \item La vitesse estimee est bien meilleure que l'estimation naive par derivation.
+    \item La matrice de covariance $\mat{P}$ est coherente avec la dispersion reelle des erreurs.
 \end{itemize}
 
-\bigskip
-\hrule
-\hrule
-\bigskip
+% ===========================================================================
+% Descriptions des autres options (sans resultats)
+% ===========================================================================
 
-\textbf{Option 7} : Effet de l'erreur sur la covariance du bruit d'observation $R$
+\subsubsection{Description des autres options du programme}
 
-Comparaison de trois valeurs de $R$ utilisees dans le filtre :
-\begin{itemize}
-    \item $R$ : valeur correcte
-    \item $10 \times R$ : surestimation du bruit d'observation
-    \item $0{,}1 \times R$ : sous-estimation du bruit d'observation
-\end{itemize}
+\paragraph{Option 2 : Etude statistique avec bruits gaussiens}
+\textbf{Objectif :} Valider statistiquement que $\mat{P}$ correspond a la dispersion reelle des erreurs via $N = 10000$ simulations Monte-Carlo.
 
-\textbf{Objectif :} Analyser les consequences d'une erreur de modelisation sur $R$ :
-\begin{itemize}
-    \item \textbf{Surestimation} ($10R$) : le filtre accorde moins de poids aux observations, l'estimation est plus lisse mais peut diverger.
-    \item \textbf{Sous-estimation} ($0{,}1R$) : le filtre fait trop confiance aux mesures, l'estimation suit le bruit d'observation.
-\end{itemize}
+\paragraph{Option 3 : Effet de la ddp (bruits uniformes)}
+\textbf{Objectif :} Verifier la robustesse du FK avec des bruits non-gaussiens (uniformes de meme variance).
 
-\bigskip
-\hrule
-\hrule
-\bigskip
+\paragraph{Option 4 : Effet de l'etat initial}
+\textbf{Objectif :} Montrer la convergence du FK meme avec une initialisation erronee ($\hat{\mat{x}}_0 = (0, 0)^T$ au lieu de $(0, 1)^T$).
 
-\textbf{Option 8} : Test de coherence (distance de Mahalanobis)
+\paragraph{Option 5 : Effet de la covariance initiale}
+\textbf{Objectif :} Etudier l'influence de $\mat{P}_0$ (nominal, $\times 100$, $\times 0{,}01$) sur la convergence.
 
-Cette option calcule la distance de Mahalanobis de l'innovation :
-\[
-\delta_k = \frac{|y_k - \hat{y}_{k|k-1}|}{\sigma_k}
-\]
+\paragraph{Option 6 : Effet de l'erreur sur $\mat{Q}$}
+\textbf{Objectif :} Analyser les consequences d'une sur/sous-estimation de la covariance du bruit d'etat.
 
-ou $\sigma_k = \sqrt{\mat{C}\mat{P}_{k|k-1}\mat{C}^T + R}$ est l'ecart-type de l'innovation.
+\paragraph{Option 7 : Effet de l'erreur sur $R$}
+\textbf{Objectif :} Analyser les consequences d'une sur/sous-estimation de la covariance du bruit d'observation.
 
-\textbf{Objectif :} Fournir un indicateur de coherence du filtre. Si le modele est correct et les bruits gaussiens, on doit avoir $\Pr[|\delta_k| < 3] \approx 0{,}99$. Une distance regulierement superieure a 3 indique une incoherence entre le modele utilise par le filtre et le systeme reel (erreur sur $\mat{Q}$ ou $R$).
-
-\subsubsection{Fonctions auxiliaires}
-
-\paragraph{Fonction \texttt{trace\_ellipse\_P}}
-Trace une ellipse de covariance definie par son centre et sa matrice $\mat{P}$ :
-\begin{itemize}
-    \item Diagonalisation de $\mat{P}$ pour obtenir les axes principaux
-    \item Parametrage de l'ellipse : $\mat{x} = \text{Centre} + \mat{R}\sqrt{\mat{D}} \begin{pmatrix} \cos\theta \\ \sin\theta \end{pmatrix}$
-\end{itemize}
-
-\paragraph{Fonctions \texttt{nuage\_n} et \texttt{nuage\_u}}
-Realisent une etude Monte-Carlo avec $N$ trajectoires pour valider statistiquement les performances du filtre. La difference reside dans la generation des bruits : gaussiens (\texttt{randn}) ou uniformes (\texttt{rand}).
+\paragraph{Option 8 : Test de coherence}
+\textbf{Objectif :} Utiliser la distance de Mahalanobis $\delta_k = |y_k - \hat{y}_{k|k-1}|/\sigma_k$ comme indicateur de coherence du filtre. Si $\delta_k > 3$ regulierement, cela indique une erreur de modelisation.
 
 \end{document}
