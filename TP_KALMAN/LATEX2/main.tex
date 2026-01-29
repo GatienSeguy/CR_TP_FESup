@@ -289,86 +289,139 @@
 % =============================================================================
 \section{Introduction}
 
+Dans ce TP, on considère un mobile se déplaçant en mouvement rectiligne quasi-uniforme. L'objectif est d'estimer sa position et sa vitesse (constituant son état) à partir de la seule mesure bruitée de sa position. Le caractère "quasi-uniforme" du mouvement se traduit par une accélération non nulle mais de faible amplitude, modélisée comme un bruit blanc.
 
+\bigskip 
+
+Ce problème est représentatif de nombreuses applications pratiques : suivi de cibles radar, localisation GPS, ou encore navigation de véhicules autonomes.
+
+\bigskip 
+
+Les objectifs de ce travail pratique sont les suivants :
+\begin{itemize}
+    \item Mettre en équation le système sous forme d'un modèle d'état à temps discret, en identifiant les matrices du système et les statistiques des bruits.
+    \item Implémenter le filtre de Kalman et illustrer son fonctionnement sur des données simulées.
+    \item Étudier l'influence de différents paramètres sur les performances du filtre : nature de la densité de probabilité des bruits, initialisation du filtre, et erreurs de modélisation sur les matrices de covariance.
+\end{itemize}
+
+\bigskip
+
+On adopte les notations suivantes tout au long du CR (je prefère radoter pour pas me perdre dans les notations / indices) :
+\begin{itemize}
+    \item $t_k = kT$ : instants d'échantillonnage avec $T > 0$ la période d'échantillonnage
+    \item $d_k$ : position du mobile à l'instant $t_k$
+    \item $v_k$ : vitesse du mobile à l'instant $t_k$
+    \item $\gamma_k$ : accélération du mobile sur l'intervalle $[t_k, t_{k+1}]$
+    \item $\mat{x}_k = (d_k \; v_k)^T$ : vecteur d'état
+    \item $y_k$ : mesure de la position à l'instant $t_k$
+    \item $w_k$ : bruit de mesure
+    \item $\sigma_\gamma$ : écart-type de l'accélération ($\sigma_\gamma = 0{,}01$ m/s$^2$)
+    \item $\sigma_d$ : écart-type du bruit de mesure ($\sigma_d = 0{,}1$ m)
+\end{itemize}
+
+
+\section{Modèle du système}
 \subsection{Préparation 1}
-Pour $t\geq kT$, on a : 
 
+\subsubsection{Dynamique continue du système}
+
+On considère un mobile en mouvement rectiligne. Pour $t \geq kT$, les équations de la cinématique donnent :
 \[
 \begin{cases}
-\sigma(t) = v_k + \int_{kT}^{t} \gamma(\tau)\, d\tau\\
-d(t) = d_k + \int_{kT}^{t} v(\tau)\, d\tau
+v(t) = v_k + \displaystyle\int_{kT}^{t} \gamma(\tau)\, d\tau \\[2ex]
+d(t) = d_k + \displaystyle\int_{kT}^{t} v(\tau)\, d\tau
 \end{cases}
 \]
 
-Si $kT \geq t \geq (k+A)T$ : 
-\(
-\gamma (\tau) = \gamma_k 
-\)
-D'où : \(v(t) = v_k + \gamma_k(t-kT) \)
-et aux instant d'échantillonnage :
+\subsubsection{Discrétisation avec accélération constante par morceaux}
+
+Entre deux instants d'échantillonnage consécutifs, l'accélération est supposée constante : pour $t \in [kT, (k+1)T]$, on a $\gamma(t) = \gamma_k$.
+
+En intégrant, on obtient l'évolution de la vitesse :
 \[
-\begin{cases}
-v_{k+1} = v_k + \gamma_kT \, | \, \text{ pour } t=(k+1)T \\
-d_{k+1} = d_k + \frac{\gamma_k}{2}T^2
-\end{cases}
+v(t) = v_k + \gamma_k (t - kT)
 \]
 
-Le vecteur d'état : \\
+Puis, en intégrant la vitesse, on obtient l'évolution de la position :
 \[
-x_{k+1} = \begin{pmatrix}
-d_{k+1}\\
-v_{k+1}
-\end{pmatrix}
-= \begin{pmatrix}
-1 & T \\
-0 & 1     
-\end{pmatrix}
-\begin{pmatrix}
-d_k \\
-v_k
-\end{pmatrix}
-+ 
-0 u_k + b_k \; \; | \; \; \text{ avec } b_k = \begin{pmatrix}
-\frac{T^2}{2} \\
-T
-\end{pmatrix}
- \gamma_k = B \gamma_k
+d(t) = d_k + \int_{kT}^{t} \left[ v_k + \gamma_k (\tau - kT) \right] d\tau = d_k + v_k (t - kT) + \frac{\gamma_k}{2} (t - kT)^2
 \]
 
-\[
-\mathbb Q = \mathbb E [b_k \cdot b_k^T] = \begin{pmatrix}
-    T^2 /2 \\ 
-    T
-\end{pmatrix}
-\begin{pmatrix}
-    T^2/2 & T
-\end{pmatrix}
-\sigma_{\gamma}
-\]
+\subsubsection{Équations aux instants d'échantillonnage}
 
-D'où :\\
+En évaluant ces expressions à l'instant $t = (k+1)T$, on obtient les équations récurrentes :
 \[
 \boxed{
-    \mathbb Q = \begin{pmatrix}
-        \frac{T^2}{2} & \frac{T^3}{2} \\
-        \frac{T^3}{2} & \frac{T^2}{2}
-    \end{pmatrix}
+\begin{cases}
+d_{k+1} = d_k + v_k T + \dfrac{\gamma_k T^2}{2} \\[2ex]
+v_{k+1} = v_k + \gamma_k T
+\end{cases}
 }
 \]
-On a également
+
+\subsubsection{Représentation d'état}
+
+En définissant le vecteur d'état $\mat{x}_k = \begin{pmatrix} d_k \\ v_k \end{pmatrix}$, on peut écrire le système sous forme matricielle :
 \[
+\mat{x}_{k+1} = \underbrace{\begin{pmatrix} 1 & T \\ 0 & 1 \end{pmatrix}}_{\mat{A}} \mat{x}_k + \underbrace{\begin{pmatrix} \frac{T^2}{2} \\[1ex] T \end{pmatrix}}_{\mat{B}} \gamma_k
+\]
+
+Le bruit d'état est donc $\mat{b}_k = \mat{B} \gamma_k$ où $\gamma_k$ est un bruit blanc de variance $\sigma_\gamma^2$.
+
+\subsubsection{Matrice de covariance du bruit d'état}
+
+La matrice de covariance du bruit d'état se calcule comme suit :
+\[
+\mat{Q} = \mathbb{E}\left[\mat{b}_k \mat{b}_k^T\right] = \mathbb{E}\left[\mat{B} \gamma_k \gamma_k^T \mat{B}^T\right] = \mat{B} \, \mathbb{E}\left[\gamma_k^2\right] \mat{B}^T = \sigma_\gamma^2 \, \mat{B} \mat{B}^T
+\]
+
+En développant le produit $\mat{B} \mat{B}^T$ :
+\[
+\mat{B} \mat{B}^T = \begin{pmatrix} \frac{T^2}{2} \\[1ex] T \end{pmatrix} \begin{pmatrix} \frac{T^2}{2} & T \end{pmatrix} = \begin{pmatrix} \frac{T^4}{4} & \frac{T^3}{2} \\[1ex] \frac{T^3}{2} & T^2 \end{pmatrix}
+\]
+
+D'où la matrice de covariance du bruit d'état :
+\[
+\boxed{
+\mat{Q} = \sigma_\gamma^2 \begin{pmatrix} \frac{T^4}{4} & \frac{T^3}{2} \\[1ex] \frac{T^3}{2} & T^2 \end{pmatrix}
+}
+\]
+
+\subsubsection{Équation d'observation}
+
+La mesure $y_k$ correspond à la position bruitée du mobile :
+\[
+y_k = d_k + w_k = \underbrace{\begin{pmatrix} 1 & 0 \end{pmatrix}}_{\mat{C}} \mat{x}_k + w_k
+\]
+
+où $w_k$ est un bruit blanc de variance $\sigma_d^2$.
+
+La matrice de covariance du bruit d'observation est donc :
+\[
+\boxed{R = \sigma_d^2}
+\]
+
+\subsubsection{Récapitulatif du modèle d'état}
+
+Le système à temps discret s'écrit sous la forme canonique :
+\[
+\boxed{
 \begin{cases}
-x_{k+1} = A x_k + b_k \\
-y_{k+1} = d_k + w_k = C_k x_k + w_k = \begin{pmatrix}
-    1 & 0
-\end{pmatrix}
-x_k + w_k
+\mat{x}_{k+1} = \mat{A} \mat{x}_k + \mat{b}_k \\[1ex]
+y_k = \mat{C} \mat{x}_k + w_k
 \end{cases}
+}
+\]
+
+avec les matrices et les statistiques des bruits :
+\[
+\mat{A} = \begin{pmatrix} 1 & T \\ 0 & 1 \end{pmatrix}, \quad
+\mat{C} = \begin{pmatrix} 1 & 0 \end{pmatrix}
 \]
 \[
-x_k = \begin{pmatrix}
-    d_k \\
-    v_k
-\end{pmatrix}
+\mathbb{E}[\mat{b}_k] = \mat{0}, \quad \mathbb{E}[\mat{b}_k \mat{b}_k^T] = \mat{Q}, \quad
+\mathbb{E}[w_k] = 0, \quad \mathbb{E}[w_k^2] = R
 \]
+
+
 \end{document}

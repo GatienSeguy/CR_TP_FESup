@@ -1,3 +1,11 @@
 \babel@toc {french}{}\relax 
 \contentsline {section}{\numberline {I}Introduction}{2}{section.1}%
-\contentsline {subsection}{\numberline {I.1}Préparation 1}{2}{subsection.1.1}%
+\contentsline {section}{\numberline {II}Modèle du système}{2}{section.2}%
+\contentsline {subsection}{\numberline {II.1}Préparation 1}{2}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {II.1.1}Dynamique continue du système}{2}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {II.1.2}Discrétisation avec accélération constante par morceaux}{3}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {II.1.3}Équations aux instants d'échantillonnage}{3}{subsubsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {II.1.4}Représentation d'état}{3}{subsubsection.2.1.4}%
+\contentsline {subsubsection}{\numberline {II.1.5}Matrice de covariance du bruit d'état}{3}{subsubsection.2.1.5}%
+\contentsline {subsubsection}{\numberline {II.1.6}Équation d'observation}{4}{subsubsection.2.1.6}%
+\contentsline {subsubsection}{\numberline {II.1.7}Récapitulatif du modèle d'état}{4}{subsubsection.2.1.7}%
