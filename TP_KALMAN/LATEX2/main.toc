@@ -18,16 +18,3 @@
 \contentsline {paragraph}{Implementation du filtre de Kalman}{5}{Item.8}%
 \contentsline {paragraph}{Fonctions auxiliaires}{6}{lstnumber.-2.13}%
 \contentsline {subsubsection}{\numberline {III.2.2}Illustration du fonctionnement du filtre de Kalman}{6}{subsubsection.3.2.2}%
-\contentsline {paragraph}{Protocole experimental}{6}{subsubsection.3.2.2}%
-\contentsline {paragraph}{Comparaison des estimations}{6}{subsubsection.3.2.2}%
-\contentsline {paragraph}{Analyse des erreurs d'estimation}{6}{figure.1}%
-\contentsline {paragraph}{Validation de la covariance calculee par le filtre}{6}{figure.2}%
-\contentsline {paragraph}{Conclusion}{7}{figure.3}%
-\contentsline {subsubsection}{\numberline {III.2.3}Description des autres options du programme}{8}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Option 2 : Etude statistique avec bruits gaussiens}{8}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Option 3 : Effet de la ddp (bruits uniformes)}{8}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Option 4 : Effet de l'etat initial}{8}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Option 5 : Effet de la covariance initiale}{8}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Option 6 : Effet de l'erreur sur $\mathbf {Q}$}{8}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Option 7 : Effet de l'erreur sur $R$}{9}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Option 8 : Test de coherence}{9}{subsubsection.3.2.3}%
